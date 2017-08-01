@@ -1,20 +1,19 @@
 window.fakeStorage = {
-    _data: {
-    },
-    setItem: function (id, val) {
+    _data: {},
+    setItem: function(id, val) {
         return this._data[id] = String(val);
     },
-    getItem: function (id) {
+    getItem: function(id) {
         return this._data.hasOwnProperty(id) ? this._data[id] : undefined;
     },
-    removeItem: function (id) {
+    removeItem: function(id) {
         return delete this._data[id];
     },
-    clear: function () {
-        return this._data = {
-        };
+    clear: function() {
+        return this._data = {};
     }
 };
+
 function LocalStorageManager() {
     this.bgColor = 'bgColor';
     this.fgcolor = 'fgcolor';
@@ -22,7 +21,7 @@ function LocalStorageManager() {
     var supported = this.localStorageSupported();
     this.storage = supported ? window.localStorage : window.fakeStorage;
 }
-LocalStorageManager.prototype.localStorageSupported = function () {
+LocalStorageManager.prototype.localStorageSupported = function() {
     var testKey = 'test';
     var storage = window.localStorage;
     try {
@@ -33,60 +32,61 @@ LocalStorageManager.prototype.localStorageSupported = function () {
         return false;
     }
 };
-LocalStorageManager.prototype.getBgColor = function () {
+LocalStorageManager.prototype.getBgColor = function() {
     return this.storage.getItem(this.bgColor) || '#333';
 };
-LocalStorageManager.prototype.setBgColor = function (color) {
+LocalStorageManager.prototype.setBgColor = function(color) {
     this.storage.setItem(this.bgColor, color);
 };
-LocalStorageManager.prototype.getFgColor = function () {
+LocalStorageManager.prototype.getFgColor = function() {
     return this.storage.getItem(this.fgColor) || '#fff';
 };
-LocalStorageManager.prototype.setFgColor = function (color) {
+LocalStorageManager.prototype.setFgColor = function(color) {
     this.storage.setItem(this.fgColor, color);
 };
-LocalStorageManager.prototype.getBgImage = function () {
+LocalStorageManager.prototype.getBgImage = function() {
     return this.storage.getItem(this.bgImage) || 'arches';
 };
-LocalStorageManager.prototype.setBgImage = function (image) {
+LocalStorageManager.prototype.setBgImage = function(image) {
     this.storage.setItem(this.bgImage, image);
 };
-LocalStorageManager.prototype.clearItems = function () {
+LocalStorageManager.prototype.clearItems = function() {
     this.storage.removeItem(this.bgColor);
     this.storage.removeItem(this.fgColor);
     this.storage.removeItem(this.bgImage);
 };
+
 function InputTypeManager() {
     var ci = this.colorTypeSupported();
     this.ci = ci;
 }
-InputTypeManager.prototype.colorTypeSupported = function () {
+InputTypeManager.prototype.colorTypeSupported = function() {
     var ci = document.createElement('input');
     ci.setAttribute('type', 'color');
     return ci.type !== 'text';
 };
 
-StyleSwitcher = function () {
+StyleSwitcher = function() {
 
     this.inputManager = new InputTypeManager();
     this.storageManager = new LocalStorageManager();
 
     this.init();
 };
-StyleSwitcher.prototype.init = function () {  
+StyleSwitcher.prototype.init = function() {
     this.showChange();
     this.build();
 };
 
-StyleSwitcher.prototype.showChange = function () {
+StyleSwitcher.prototype.showChange = function() {
     this.bgColor = this.storageManager.getBgColor();
     this.fgColor = this.storageManager.getFgColor();
     this.bgImage = this.storageManager.getBgImage();
     this.postLess(this.bgColor, this.fgColor, this.bgImage);
 };
 
-StyleSwitcher.prototype.build = function () {
-   
+StyleSwitcher.prototype.build = function() {
+
     var $this = this;
     $this.storageManager = new LocalStorageManager();
 
@@ -128,15 +128,14 @@ StyleSwitcher.prototype.build = function () {
     var h5A = $('<a />').attr({
         'href': '#',
         'id': 'switcher-link'
-    }).on(Metis.buttonPressedEvent, function (e) {
+    }).on(Metis.buttonPressedEvent, function(e) {
         e.preventDefault();
         switchDiv.toggleClass('open');
         $(this).find('i').toggleClass('fa-spin');
     }).append(h5Ai);
-    var h5 = $('<h5 />').html('Style Switcher').append(h5A);
+    var h5 = $('<h5 />').html('Thiết lập').append(h5A);
     var colorList = $('<ul />').addClass('options').attr('data-type', 'colors');
-    var colors = [
-        {
+    var colors = [{
             'Hex': '#0088CC',
             'colorName': 'Blue'
         },
@@ -169,16 +168,15 @@ StyleSwitcher.prototype.build = function () {
             'colorName': 'Cyan'
         }
     ];
-    $.each(colors, function (i) {
+    $.each(colors, function(i) {
         var listElement = $('<li/>').append($('<a/>').css('background-color', colors[i].Hex).attr({
-                'data-color-hex': colors[i].Hex,
-                'data-color-name': colors[i].colorName,
-                'href': '#',
-                'title': colors[i].colorName
-            }).tooltip({
-                'placement': 'bottom'
-            })
-        );
+            'data-color-hex': colors[i].Hex,
+            'data-color-name': colors[i].colorName,
+            'href': '#',
+            'title': colors[i].colorName
+        }).tooltip({
+            'placement': 'bottom'
+        }));
         colorList.append(listElement);
     });
 
@@ -189,7 +187,7 @@ StyleSwitcher.prototype.build = function () {
             'id': 'colorSelector',
             'type': 'color'
         }).val($this.storageManager.getBgColor());
-        colorSelector.on('change', function (ev) {
+        colorSelector.on('change', function(ev) {
             $this.storageManager.setBgColor($(this).val());
             $this.showChange();
         });
@@ -210,21 +208,21 @@ StyleSwitcher.prototype.build = function () {
             'data-color-format': 'hex'
         });
         var url = imgPath + 'assets/lib/colorpicker/js/bootstrap-colorpicker.js';
-        $.getScript(url, function () {
+        $.getScript(url, function() {
             $('head').append(colorSelStyle, colorSelHackStyle);
 
 
             colorSelector.append(
                 $('<a/>')
-                    .css({
-                        'background-color': $this.storageManager.getBgColor()
-                    })
-                    .attr({
-                        'href': '#',
-                        'id': 'colorSelectorA'
-                    })
+                .css({
+                    'background-color': $this.storageManager.getBgColor()
+                })
+                .attr({
+                    'href': '#',
+                    'id': 'colorSelectorA'
+                })
             );
-            colorSelector.colorpicker().on('changeColor', function (ev) {
+            colorSelector.colorpicker().on('changeColor', function(ev) {
                 colorSelector.find('a').css('background-color', ev.color.toHex());
                 $this.storageManager.setBgColor(ev.color.toHex());
                 $this.showChange();
@@ -235,7 +233,7 @@ StyleSwitcher.prototype.build = function () {
 
     var colorPicker = $('<li/>').append(colorSelector);
 
-    colorList.find('a').on(Metis.buttonPressedEvent, function (e) {
+    colorList.find('a').on(Metis.buttonPressedEvent, function(e) {
         e.preventDefault();
         $this.storageManager.setBgColor($(this).data('colorHex'));
         $this.showChange();
@@ -250,29 +248,28 @@ StyleSwitcher.prototype.build = function () {
 
     var styleSwitcherWrap = $('<div />')
         .addClass('style-switcher-wrap')
-        .append($('<h6 />').html('Background Colors'), colorList, $('<hr/>'));
+        .append($('<h6 />').html('Màu nền'), colorList, $('<hr/>'));
 
     var fgwbtn = $('<input/>').attr({
         'type': 'radio',
         'name': 'fgcolor'
-    }).val('#ffffff').on('change', function (e) {
+    }).val('#ffffff').on('change', function(e) {
         $this.storageManager.setFgColor('#ffffff');
         $this.showChange();
     });
-    var fontWhite = $('<label/>').addClass('btn btn-xs btn-primary').html('White').append(fgwbtn);
+    var fontWhite = $('<label/>').addClass('btn btn-xs btn-primary').html('Trắng').append(fgwbtn);
     var fgbbtn = $('<input/>').attr({
         'type': 'radio',
         'name': 'fgcolor'
-    }).val('#333333').on('change', function (e) {
+    }).val('#333333').on('change', function(e) {
         $this.storageManager.setFgColor('#333333');
         $this.showChange();
     });
-    var fontBlack = $('<label/>').addClass('btn btn-xs btn-danger').html('Black').append(fgbbtn);
+    var fontBlack = $('<label/>').addClass('btn btn-xs btn-danger').html('Đen').append(fgbbtn);
     var fgBtnGroup = $('<div/>').addClass('btn-group').attr('data-toggle', 'buttons').append(fontWhite, fontBlack);
-    styleSwitcherWrap.append($('<div/>').addClass('options-link').append($('<h6/>').html('Font Colors'), fgBtnGroup));
+    styleSwitcherWrap.append($('<div/>').addClass('options-link').append($('<h6/>').html('Màu phông chữ'), fgBtnGroup));
     var patternList = $('<ul />').addClass('options').attr('data-type', 'pattern');
-    var patternImages = [
-        {
+    var patternImages = [{
             'image': 'brillant',
             'title': 'Brillant'
         },
@@ -369,20 +366,19 @@ StyleSwitcher.prototype.build = function () {
             'title': 'Carbon Fibre'
         }
     ];
-    $.each(patternImages, function (i) {
+    $.each(patternImages, function(i) {
         var listElement = $('<li/>').append($('<a/>').css({
-                'background': 'url(' + imgPath + 'assets/img/pattern/' + patternImages[i].image + '.png) repeat'
-            }).attr({
-                'href': '#',
-                'title': patternImages[i].title,
-                'data-pattern-image': patternImages[i].image
-            }).tooltip({
-                'placement': 'bottom'
-            })
-        );
+            'background': 'url(' + imgPath + 'assets/img/pattern/' + patternImages[i].image + '.png) repeat'
+        }).attr({
+            'href': '#',
+            'title': patternImages[i].title,
+            'data-pattern-image': patternImages[i].image
+        }).tooltip({
+            'placement': 'bottom'
+        }));
         patternList.append(listElement);
     });
-    patternList.find('a').on(Metis.buttonPressedEvent, function (e) {
+    patternList.find('a').on(Metis.buttonPressedEvent, function(e) {
         e.preventDefault();
         $('body').css({
             'background-image': 'url(' + imgPath + 'assets/img/pattern/' + $(this).data('patternImage') + '.png)',
@@ -393,24 +389,20 @@ StyleSwitcher.prototype.build = function () {
         $this.storageManager.setBgImage($this.patternImage);
         $this.showChange();
     });
-    styleSwitcherWrap.append($('<div/>').addClass('pattern').append($('<h6/>').html('Background Pattern'), patternList
-        )
-    );
-    var resetLink = $('<a/>').html('Reset').attr('href', '#').on(Metis.buttonPressedEvent, function (e) {
+    styleSwitcherWrap.append($('<div/>').addClass('pattern').append($('<h6/>').html('Background Pattern'), patternList));
+    var resetLink = $('<a/>').html('Khôi phục').attr('href', '#').on(Metis.buttonPressedEvent, function(e) {
         $this.reset();
         e.preventDefault();
     });
-    var cssLink = $('<a/>').html('Get CSS').attr('href', '#').on(Metis.buttonPressedEvent, function (e) {
-        e.preventDefault();
-        $this.getCss();
-    });
-    styleSwitcherWrap.append($('<div/>').addClass('options-link').append($('<hr/>'), resetLink, cssLink
-        )
-    );
+    // var cssLink = $('<a/>').html('Get CSS').attr('href', '#').on(Metis.buttonPressedEvent, function(e) {
+    //     e.preventDefault();
+    //     $this.getCss();
+    // });
+    styleSwitcherWrap.append($('<div/>').addClass('options-link').append($('<hr/>'), resetLink));
     switchDiv.append(h5, styleSwitcherWrap);
     $('body').append(switchDiv);
 };
-StyleSwitcher.prototype.postLess = function (bgColor, fgColor, bgImage) {
+StyleSwitcher.prototype.postLess = function(bgColor, fgColor, bgImage) {
 
 
     this.bgc = bgColor;
@@ -423,7 +415,7 @@ StyleSwitcher.prototype.postLess = function (bgColor, fgColor, bgImage) {
         '@bgImage': this.bgi
     });
 };
-StyleSwitcher.prototype.getCss = function () {
+StyleSwitcher.prototype.getCss = function() {
     var $this = this;
     var raw = '',
         options;
@@ -441,7 +433,7 @@ StyleSwitcher.prototype.getCss = function () {
     $('#getCSSModal').modal('show');
 };
 
-StyleSwitcher.prototype.reset = function () {
+StyleSwitcher.prototype.reset = function() {
     this.storageManager.clearItems();
     this.showChange();
 };
