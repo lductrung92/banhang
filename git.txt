@@ -1,0 +1,19 @@
+403 git: access denie
+
+https://stackoverflow.com/questions/39304554/git-push-u-origin-master-remote-permission-to-user-android-studio
+
+git config --global --unset user.name
+git config --global --unset user.email
+git config --global --unset-all
+
+git config user.name
+git config user.email
+
+edit .git/config file under your repo directory: git config -e
+
+find url=entry under section [remote "origin"]
+change it from
+url=https://your_user_name@github.com/yy/repo_name.git
+to
+url=ssh://git@github.com/your_user_name/repo_name.git
+
