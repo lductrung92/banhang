@@ -18,4 +18,8 @@ Route::get('/', function () {
 Route::group(['prefix' => 'administrator'], function() {
     Route::get('/login', ['as' => 'getLoginAdmin', 'uses' => 'Administrator\AuthController@index']);
     Route::get('/dashboard', ['as' => 'pageIndexAdmin', 'uses' => 'Administrator\BaseAdminController@index']);
+
+    Route::group(['prefix' => 'category'], function() {
+        Route::get('/', ['as' => 'pageCateIndex', 'uses' => 'Administrator\CateController@index']);
+    });
 });

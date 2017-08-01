@@ -13,11 +13,7 @@
         <!-- /.main-search -->                                
     </div>
     <!-- /.search-bar -->
-    <div class="main-bar">
-        <h3>
-            <i class="fa fa-home"></i>&nbsp;Metiss
-        </h3>
-    </div>
+    @yield('main-bar')
     <!-- /.main-bar -->
 </header>
 <!-- /.head -->

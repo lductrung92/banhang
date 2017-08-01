@@ -29,6 +29,14 @@
                 <i class="fa fa-dashboard"></i><span class="link-title">&nbsp;Bảng điều khiển</span>
             </a>
         </li>
+
+        <li>
+            <a href="{{ route('pageCateIndex') }}">
+                <i class="fa fa-paw"></i>
+                <span class="link-title">Danh mục</span>
+            </a>
+        </li>
+
         <li class="">
             <a href="javascript:;">
                 <i class="fa fa-building "></i>
