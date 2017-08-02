@@ -93,7 +93,7 @@
                             <!-- /.toolbar -->
                         </header>
                         <div id="div-1" class="body">
-                            <form class="form-horizontal">
+                            <form class="form-horizontal" id="formCreateCate">
 
                                  <div class="form-group">
                                     <label class="control-label col-lg-4">Danh mục</label>
@@ -129,10 +129,11 @@
                                     </div>
                                 </div>
                                 <div class="text-right">
-                                    <button class="btn btn-primary btn-grad" data-original-title="" title="">Thêm mới</button>
-                                    <button class="btn btn-warning btn-grad" data-original-title="" title="">Làm mới</button>
+                                    <input type="submit" class="btn btn-primary btn-grad" value="Thêm mới">
+                                    <input type="button" class="btn btn-warning btn-grad" id="btnResetCreate" value="Làm mới">
                                 </div>
                             </form>
+                            
                         </div>
                     </div>
                 </div>
@@ -196,17 +197,17 @@
                     <div class="box">
                         <header>
                             <div class="icons"><i class="fa fa-table"></i></div>
-                            <h5>Dynamic Table</h5>
+                            <h5>Bảng danh mục</h5>
                         </header>
                         <div id="collapse4" class="body">
                             <table id="dataTable" class="table table-bordered table-condensed table-hover table-striped">
                                 <thead>
                                 <tr>
-                                    <th>Rendering engine</th>
-                                    <th>Browser</th>
-                                    <th>Platform(s)</th>
-                                    <th>Engine version</th>
-                                    <th>CSS grade</th>
+                                    <th>Tên danh mục</th>
+                                    <th>Danh mục cha</th>
+                                    <th>Mô tả</th>
+                                    <th>Trạng thái</th>
+                                    <th></th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -333,27 +334,20 @@
 
     <script src="assets/sortable/jquery-sortable-lists.js"></script>
 
+    <!-- Custom  -->
+    <script src="assets/custom/handle-form.js"></script>
+
     <!-- Metis core scripts -->
     <script src="assets/js/core.js"></script>
     <!-- Metis demo scripts -->
     <script src="assets/js/app.js"></script>
     <script>
         $(document).ready(function() {
-            $('#dataTable').DataTable({
-                "language": {
-                    "lengthMenu": "Hiển thị _MENU_ danh mục",
-                    "zeroRecords": "Không tìm thấy",
-                    "info": "Hiển thị _PAGE_/_PAGES_",
-                    "infoEmpty": "Không thìm thấy",
-                    "infoFiltered": "(Tìm kiếm trong _MAX_ danh mục)",
-                    "paginate": {
-                        "first":      "Trang đầu",
-                        "last":       "Trang cuối",
-                        "next":       "<i class='fa fa-angle-double-right'></i>",
-                        "previous":   "<i class='fa fa-angle-double-left'></i>"
-                    },
-                }
-            });
+            $('#dataTable').table({
+                numberColumn: 5,
+                orderColum: 0
+            })
+            
 
             var options = {
                 placeholderCss: {'background-color': '#f9e3d3', 'border-radius': '3px'},
@@ -390,8 +384,6 @@
                 ignoreClass: 'clickable'
             };
 
-            $('#tree_panel').sortableLists( options );
-
             $('#tree_panel li div').click(function(event) {
                 oriVal = $(this).text();
                 $('#tree_panel').beforePopupForm($('#labelFormUpdate'), $('#cateU'), $('#nameCateU'), $('#desCateU'), oriVal);
@@ -399,6 +391,10 @@
                 $('#formUpdateCate').on('hidden.bs.modal', function (e) {
                    console.log('a');
                 });
+            });
+
+            $('#btnResetCreate').click(function (){
+                $('#formCreateCate').handleForm({reset: true});
             });
             
             console.log( $('#tree_panel').sortableListsToHierarchy() );
