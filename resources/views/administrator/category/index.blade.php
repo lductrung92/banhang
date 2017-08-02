@@ -159,9 +159,7 @@
                         </header>
                         <div id="div-2" class="body">
                             <ul class="tree_panel listsClass" id="tree_panel">
-                                <li id="item_a" data-module="a">
-                                    <div>Item a</div>
-                                </li>
+                                <li id="item_a" data-module="a"><div>Item b</div></li>
                                 <li class="sortableListsOpen" id="item_b" data-module="b">
                                     <div>Item b</div>
                                     <ul class="">
@@ -217,7 +215,9 @@
                                         <td>Internet Explorer 4.0</td>
                                         <td>Win 95+</td>
                                         <td>4</td>
-                                        <td>X</td>
+                                        <td>
+                                            <button type="button" class="btn btn-info btn-lg" id="btn-ok">Open Modal</button>
+                                        </td>
                                     </tr>
                                     <tr>
                                         <td>Trident</td>
@@ -249,6 +249,62 @@
                                     </tr>
                                 </tbody>                
                             </table>
+                            
+                            <!-- Form Update-->
+                            <div class="modal fade" id="formUpdateCate" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                            <h4 class="modal-title" id="labelFormUpdate">Modal title</h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form class="form-horizontal">
+                                                <div class="form-group">
+                                                    <label class="control-label col-lg-3">Danh mục</label>
+
+                                                    <div class="col-lg-8">
+                                                        <select data-placeholder="Chọn danh mục" id="cateU" class="form-control chzn-select" tabindex="5">
+                                                            <option value="0">-- Chọn danh mục --</option>
+                                                            <optgroup label="NFC EAST">
+                                                                <option>Dallas Cowboys</option>
+                                                                <option>New York Giants</option>
+                                                                <option>Philadelphia Eagles</option>
+                                                                <option>Washington Redskins</option>
+                                                            </optgroup>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <!-- /.form-group -->
+
+                                                <div class="form-group">
+                                                    <label for="text" class="control-label col-lg-3">Tên danh mục</label>
+
+                                                    <div class="col-lg-8">
+                                                        <input type="text" id="nameCateU" placeholder="Nhập tên danh mục" class="form-control">
+                                                    </div>
+                                                </div>
+                                                <!-- /.form-group -->
+                                                
+                                                <div class="form-group">
+                                                    <label for="text" class="control-label col-lg-3">Mô tả</label>
+
+                                                    <div class="col-lg-8">
+                                                        <textarea class="form-control" id="desCateU" placeholder="Mô tả không quá 25 ký tự"></textarea>
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button class="btn btn-primary btn-grad" data-original-title="" title="">Cập nhật</button>
+                                                    <button class="btn btn-warning btn-grad" data-original-title="" title="">Làm mới</button>
+                                                    <button type="button" class="btn btn-danger btn-grad" data-dismiss="modal">Close</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Form Update-->
+
                         </div>
                     </div>
                 </div>
@@ -275,7 +331,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.12/js/jquery.dataTables.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.12/js/dataTables.bootstrap.min.js"></script>
 
-    <script src="assets/sortable/jquery-sortable-lists.min.js"></script>
+    <script src="assets/sortable/jquery-sortable-lists.js"></script>
 
     <!-- Metis core scripts -->
     <script src="assets/js/core.js"></script>
@@ -336,17 +392,18 @@
 
             $('#tree_panel').sortableLists( options );
 
-            $('.clickable').click(function(event) {
-                
-                 oriVal = $(this).text();
-                 $(this).text("");
-                 input = "<input type='text' value='"+ oriVal +"'>";
-                 $(this).after(input);
+            $('#tree_panel li div').click(function(event) {
+                oriVal = $(this).text();
+                $('#tree_panel').beforePopupForm($('#labelFormUpdate'), $('#cateU'), $('#nameCateU'), $('#desCateU'), oriVal);
+                $('#formUpdateCate').modal('show');
+                $('#formUpdateCate').on('hidden.bs.modal', function (e) {
+                   console.log('a');
+                });
             });
-
-            console.log( $('#tree_panel').sortableListsToHierarchy() );
             
+            console.log( $('#tree_panel').sortableListsToHierarchy() );
         });
+
     </script>
 
     <script src="assets/js/style-switcher.js"></script>
