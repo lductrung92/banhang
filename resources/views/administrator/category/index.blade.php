@@ -21,6 +21,9 @@
     <!-- animate.css stylesheet -->
     <link rel="stylesheet" href="assets/lib/animate.css/animate.css">
 
+    <!-- animate.css stylesheet -->
+    <link rel="stylesheet" href="assets/css/notifier.css">
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.12/css/dataTables.bootstrap.min.css">
 
     <style type="text/css">
@@ -92,31 +95,27 @@
                             </div>            
                             <!-- /.toolbar -->
                         </header>
+
                         <div id="div-1" class="body">
-                            <form class="form-horizontal" id="formCreateCate">
-
-                                 <div class="form-group">
+                            <form class="form-horizontal" id="formCreateCate" action="{{ route('postInsertCate') }}" method="post">
+                                <input type='hidden' name='_token' value="{{ csrf_token() }}">
+                                <div class="form-group">
                                     <label class="control-label col-lg-4">Danh mục</label>
-
                                     <div class="col-lg-8">
-                                        <select data-placeholder="Chọn danh mục" class="form-control chzn-select" tabindex="5">
+                                        <select data-placeholder="Chọn danh mục" class="form-control chzn-select" tabindex="5" name="selCate">
                                             <option value="0">-- Chọn danh mục --</option>
-                                            <optgroup label="NFC EAST">
-                                                <option>Dallas Cowboys</option>
-                                                <option>New York Giants</option>
-                                                <option>Philadelphia Eagles</option>
-                                                <option>Washington Redskins</option>
-                                            </optgroup>
+                                            {{ showOptionCategories($cateops) }}
                                         </select>
                                     </div>
                                 </div>
                                 <!-- /.form-group -->
-
-                                <div class="form-group">
+                
+                                <div class="form-group @if ($errors->has('txtNameCate')) has-error @endif">
                                     <label for="text" class="control-label col-lg-4">Tên danh mục</label>
 
                                     <div class="col-lg-8">
-                                        <input type="text" placeholder="Nhập tên danh mục" class="form-control">
+                                        <input type="text" name="txtNameCate" placeholder="Nhập tên danh mục" class="form-control">
+                                        @if ($errors->has('txtNameCate')) <p class="help-block">{{ $errors->first('txtNameCate') }}</p> @endif
                                     </div>
                                 </div>
                                 <!-- /.form-group -->
@@ -125,9 +124,19 @@
                                     <label for="text" class="control-label col-lg-4">Mô tả</label>
 
                                     <div class="col-lg-8">
-                                        <textarea class="form-control" placeholder="Mô tả không quá 25 ký tự"></textarea>
+                                        <textarea class="form-control" name="txtDesCate" placeholder="Mô tả không quá 25 ký tự"></textarea>
                                     </div>
                                 </div>
+                                <div class="form-group">
+                                    <label for="text" class="control-label col-lg-4"></label>
+                                    <div class="col-lg-8">
+                                        <div class="checkbox anim-checkbox" style="padding: 0px">
+                                            <input type="checkbox" name="checkStatus" id="ch3" class="success" checked>
+                                            <label for="ch3">Hiển thị</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                
                                 <div class="text-right">
                                     <input type="submit" class="btn btn-primary btn-grad" value="Thêm mới">
                                     <input type="button" class="btn btn-warning btn-grad" id="btnResetCreate" value="Làm mới">
@@ -159,32 +168,12 @@
                             </div>    <!-- /.toolbar -->
                         </header>
                         <div id="div-2" class="body">
+                            
                             <ul class="tree_panel listsClass" id="tree_panel">
-                                <li id="item_a" data-module="a"><div>Item b</div></li>
-                                <li class="sortableListsOpen" id="item_b" data-module="b">
-                                    <div>Item b</div>
-                                    <ul class="">
-                                        <li id="item_b1" data-module="b">
-                                            <div>Item b1</div>
-                                        </li>
-                                        <li id="item_b2" data-module="b">
-                                            <div><span class="clickable">Item b2 - clickable text</span></div>
-                                        </li>
-                                        <li id="item_b3" data-module="b">
-                                            <div>Item b3</div>
-                                        </li>
-                                        <li id="item_b4" data-module="b">
-                                            <div>Item b4</div>
-                                        </li>
-                                        <li id="item_b5" data-module="b">
-                                            <div>Item b5</div>
-                                        </li>
-                                    </ul>
-                                </li>
+                                {{ showListCategories($catels) }}
                             </ul>
-
                             <div class="text-right">
-                                <button class="btn btn-primary btn-grad" data-original-title="" title="">Lưu</button>
+                                <button class="btn btn-primary btn-grad" id="updateSortList" data-original-title="" title="">Lưu</button>
                                 <button class="btn btn-danger btn-grad" data-original-title="" title="">Hủy</button>
                             </div>
                         </div>
@@ -287,6 +276,15 @@
                                                         <textarea class="form-control" id="desCateU" placeholder="Mô tả không quá 25 ký tự"></textarea>
                                                     </div>
                                                 </div>
+                                                <div class="form-group">
+                                                    <label for="text" class="control-label col-lg-3"></label>
+                                                    <div class="col-lg-8">
+                                                        <div class="checkbox anim-checkbox" style="padding: 0px">
+                                                            <input type="checkbox" id="ch4" class="success">
+                                                            <label for="ch4">Hiển thị</label>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                                 <div class="modal-footer">
                                                     <button class="btn btn-primary btn-grad" data-original-title="" title="">Cập nhật</button>
                                                     <button class="btn btn-warning btn-grad" data-original-title="" title="">Làm mới</button>
@@ -311,8 +309,11 @@
 @endsection
 
 @section('lib-js')
+    <script>
+        var listIdChange = [];
+    </script>
     <!--jQuery -->
-    <script src="assets/lib/jquery/jquery.js"></script>
+    <script src="http://code.jquery.com/jquery-3.1.0.min.js"></script>
     <!--Bootstrap -->
     <script src="assets/lib/bootstrap/js/bootstrap.js"></script>
     <!-- MetisMenu -->
@@ -334,8 +335,10 @@
     <script src="assets/js/core.js"></script>
     <!-- Metis demo scripts -->
     <script src="assets/js/app.js"></script>
+    
     <script>
         $(document).ready(function() {
+
             $('#dataTable').table({
                 numberColumn: 5,
                 orderColum: 0,
@@ -344,8 +347,11 @@
                     input: ['nameCateU', 'desCateU'],
                     form: 'formUpdateCate'
                 }
-            })
-            
+            });
+
+            $('#btnResetCreate').click(function (){
+                $('#formCreateCate').handleForm({reset: true});
+            });
 
             var options = {
                 placeholderCss: {'background-color': '#f9e3d3', 'border-radius': '3px'},
@@ -382,23 +388,25 @@
                 ignoreClass: 'clickable'
             };
 
-            // $('#tree_panel li div').click(function(event) {
-            //     oriVal = $(this).text();
-            //     $('#tree_panel').beforePopupForm($('#labelFormUpdate'), $('#cateU'), $('#nameCateU'), $('#desCateU'), oriVal);
-            //     $('#formUpdateCate').modal('show');
-            //     $('#formUpdateCate').on('hidden.bs.modal', function (e) {
-            //        console.log('a');
-            //     });
-            // });
+            
+            $('#tree_panel').sortableLists(options);
+            var listBefore = $('#tree_panel').sortableListsToArray();
+            console.log(listBefore);
 
-            $('#btnResetCreate').click(function (){
-                $('#formCreateCate').handleForm({reset: true});
+            $('#updateSortList').click(function() {
+                var listAfter = $('#tree_panel').sortableListsToArray();
+                console.log($(this));
             });
             
-            console.log( $('#tree_panel').sortableListsToHierarchy() );
         });
 
     </script>
+
+    @if(Session::has('success'))
+        <script>
+            $.notifier('success','Thông báo','{{ Session::get('success') }}','1500');
+        </script> 
+    @endif
 
     <script src="assets/js/style-switcher.js"></script>
 @endsection

@@ -184,7 +184,6 @@
          */
         function startDrag(e, el, rEl) {
             state.isDragged = true;
-
             var elMT = parseInt(el.css('margin-top')), // parseInt is necesary cause value has px at the end
                 elMB = parseInt(el.css('margin-bottom')),
                 elML = parseInt(el.css('margin-left')),
@@ -356,6 +355,18 @@
                 .unbind("mousemove", dragging)
                 .unbind("mouseup", endDrag);
 
+            var check = true;
+            var a = cEl.el;
+            console.log(a.parents('li'));
+            $.each(listIdChange, function(index, value) {
+                if (cEl.el[0].id == value) {
+                    check = false;
+                    return;
+                }
+            });
+            if (check) listIdChange.push(cEl.el[0].id);
+
+            console.log(listIdChange);
 
         }
 
@@ -820,7 +831,7 @@
      * @desc jQuery plugin
      * @returns this to unsure chaining
      */
-    $.fn.sortableListsToArray = function(arr, parentId) {
+    $.fn.sortableListsToArray = function(arr, parentId = 0) {
         arr = arr || [];
         var order = 0;
 
@@ -836,7 +847,7 @@
 
             listItem.id = id;
             listItem.parentId = parentId;
-            listItem.value = li.children().text();
+            listItem.value = li.find('div').first().text();
             listItem.order = order;
             arr.push(listItem);
             li.children('ul,ol').sortableListsToArray(arr, id);
@@ -865,7 +876,7 @@
                 throw 'Previous item in console.log has no id. It is necessary to create the array.';
             }
             listItem.id = id;
-            listItem.value = li.children().text();
+            listItem.value = li.find('div').first().text();
             listItem.order = order;
             arr.push(listItem);
             listItem.children = li.children('ul,ol').sortableListsToHierarchy();
