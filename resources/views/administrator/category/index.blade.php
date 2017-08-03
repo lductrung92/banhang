@@ -214,39 +214,32 @@
                                     <tr>
                                         <td>Trident</td>
                                         <td>Internet Explorer 4.0</td>
-                                        <td>Win 95+</td>
-                                        <td>4</td>
-                                        <td>
-                                            <button type="button" class="btn btn-info btn-lg" id="btn-ok">Open Modal</button>
+                                        <td>Win 95+1</td>
+                                        <td>Hiển thị</td>
+                                        <td align="center">
+                                            <button class="btn btn-primary btn-xs" data-title="Edit" data-toggle="modal" data-target="#edit" ><span class="glyphicon glyphicon-pencil"></span></button>
+                                            <button class="btn btn-danger btn-xs" data-title="Delete" data-toggle="modal" data-target="#delete" ><span class="glyphicon glyphicon-trash"></span></button>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>Trident</td>
-                                        <td>Internet Explorer 5.0</td>
-                                        <td>Win 95+</td>
-                                        <td>5</td>
-                                        <td>C</td>
+                                        <td>Internet Explorer 4.0</td>
+                                        <td>Win 95+2</td>
+                                        <td>Hiển thị</td>
+                                        <td align="center">
+                                            <button class="btn btn-primary btn-xs" data-title="Edit" data-toggle="modal" data-target="#edit" ><span class="glyphicon glyphicon-pencil"></span></button>
+                                            <button class="btn btn-danger btn-xs" data-title="Delete" data-toggle="modal" data-target="#delete" ><span class="glyphicon glyphicon-trash"></span></button>
+                                        </td>
                                     </tr>
                                     <tr>
                                         <td>Trident</td>
-                                        <td>Internet Explorer 5.5</td>
-                                        <td>Win 95+</td>
-                                        <td>5.5</td>
-                                        <td>A</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Trident</td>
-                                        <td>Internet Explorer 6</td>
-                                        <td>Win 98+</td>
-                                        <td>6</td>
-                                        <td>A</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Trident</td>
-                                        <td>Internet Explorer 7</td>
-                                        <td>Win XP SP2+</td>
-                                        <td>7</td>
-                                        <td>A</td>
+                                        <td>Internet Explorer 4.0</td>
+                                        <td>Win 95+3</td>
+                                        <td>Hiển thị</td>
+                                        <td align="center">
+                                            <button class="btn btn-primary btn-xs" data-title="Edit" data-toggle="modal" data-target="#edit" ><span class="glyphicon glyphicon-pencil"></span></button>
+                                            <button class="btn btn-danger btn-xs" data-title="Delete" data-toggle="modal" data-target="#delete" ><span class="glyphicon glyphicon-trash"></span></button>
+                                        </td>
                                     </tr>
                                 </tbody>                
                             </table>
@@ -345,7 +338,12 @@
         $(document).ready(function() {
             $('#dataTable').table({
                 numberColumn: 5,
-                orderColum: 0
+                orderColum: 0,
+                selector: {
+                    select: ['cateU'],
+                    input: ['nameCateU', 'desCateU'],
+                    form: 'formUpdateCate'
+                }
             })
             
 
@@ -384,14 +382,14 @@
                 ignoreClass: 'clickable'
             };
 
-            $('#tree_panel li div').click(function(event) {
-                oriVal = $(this).text();
-                $('#tree_panel').beforePopupForm($('#labelFormUpdate'), $('#cateU'), $('#nameCateU'), $('#desCateU'), oriVal);
-                $('#formUpdateCate').modal('show');
-                $('#formUpdateCate').on('hidden.bs.modal', function (e) {
-                   console.log('a');
-                });
-            });
+            // $('#tree_panel li div').click(function(event) {
+            //     oriVal = $(this).text();
+            //     $('#tree_panel').beforePopupForm($('#labelFormUpdate'), $('#cateU'), $('#nameCateU'), $('#desCateU'), oriVal);
+            //     $('#formUpdateCate').modal('show');
+            //     $('#formUpdateCate').on('hidden.bs.modal', function (e) {
+            //        console.log('a');
+            //     });
+            // });
 
             $('#btnResetCreate').click(function (){
                 $('#formCreateCate').handleForm({reset: true});
