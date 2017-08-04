@@ -28,13 +28,20 @@
             orderColum: 0,
             type: 'asc',
             selector: {
-                select: [],
+                select: null,
                 input: [],
+                status: null,
                 form: null,
+                button: {
+                    update: null,
+                    reset: null
+                }
             }
         }
 
         var settings = $.extend(defaults, options);
+
+        var c;
 
         return this.each(function() {
             var me = $(this);
@@ -47,13 +54,56 @@
                 beforePopupForm(obj);
                 $('#' + settings.selector.form).modal('show');
             });
+
+            settings.selector.button.reset.click(function() {
+                $('#' + settings.selector.form).handleForm({ reset: true });
+            });
+
+            settings.selector.button.update.click(function() {
+                var str = $('#' + settings.selector.form).find('form').serialize();
+                var url = $('#' + settings.selector.form).find('form').attr('action');
+                if (c != str) {
+                    settings.selector.button.update.button('loading');
+                    $.ajax({
+                        url: url,
+                        data: str,
+                        type: 'POST',
+                        dataType: 'json',
+                        success: function(msg) {
+                            setTimeout(function() {
+                                settings.selector.button.update.button('reset');
+                                if (msg.status) {
+                                    $('#' + settings.selector.form).modal('hide');
+                                    location.reload();
+                                } else {
+                                    var obj = msg.messages;
+                                    $.each(obj, function(index, value) {
+                                        var selector = $(':input[name=' + index + ']');
+                                        selector.after('<p class="help-block">' + value + '</p>');
+                                        selector.parent().parent('div.form-group').addClass('has-error');
+                                    });
+                                }
+                                c = str;
+                            }, 1000);
+                        },
+                        error: function(xhr) {
+                            setTimeout(function() {
+                                settings.selector.button.update.button('reset');
+                            }, 1000);
+                        }
+                    })
+                }
+            });
+
         });
 
         function setTable(me) {
             var columns = [];
             for (var i = 0; i < settings.numberColumn; i++) {
-                columns[i] = null;
-                if (i === (settings.numberColumn - 1)) columns[i] = { "orderable": false };
+                if (i === (settings.numberColumn - 1))
+                    columns[i] = { "orderable": false };
+                else
+                    columns[i] = null;
             }
             var op = {
                 "language": {
@@ -78,15 +128,18 @@
         }
 
         function beforePopupForm(obj) {
-            var select = settings.selector.select;
             var input = settings.selector.input;
-            $.each(select, function(i, val) {
-                $('#' + val).val(0);
-            });
+            $('#labelFormUpdate').html('Cập nhật danh mục - ' + '<i style="color: red">' + obj[1] + '</i>');
             $.each(input, function(i, val) {
-                $('#' + val).val(obj[i + 2]);
+                $('#' + val).val(obj[i + 1]);
             });
 
+            obj[5] == 'Hiển thị' ? $('#' + settings.selector.status).prop("checked", true) : $('#' + settings.selector.status).prop("checked", false);
+
+            obj[4] == '' ? $('#' + settings.selector.select).val(0) : $('#' + settings.selector.select).val(obj[4]);
+
+            $('#' + settings.selector.form).find('form').attr('action', 'administrator/category/update/' + obj[0]);
+            c = $('#' + settings.selector.form).find('form').serialize();
             // type.html('Cập nhật - ' + '<i style="color: red">' + obj[0] + '</i>');
             // cate.val(0);
             // name.val(obj);

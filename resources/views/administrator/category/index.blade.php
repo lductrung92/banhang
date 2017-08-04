@@ -193,44 +193,30 @@
                             <table id="dataTable" class="table table-bordered table-condensed table-hover table-striped">
                                 <thead>
                                 <tr>
+                                    <th class='hidden'></th>
                                     <th>Tên danh mục</th>
-                                    <th>Danh mục cha</th>
                                     <th>Mô tả</th>
+                                    <th>Danh mục cha</th>
+                                    <th class='hidden'></th>
                                     <th>Trạng thái</th>
                                     <th></th>
                                 </tr>
                                 </thead>
                                 <tbody>
+                                    @foreach($catetbs as $cate)
                                     <tr>
-                                        <td>Trident</td>
-                                        <td>Internet Explorer 4.0</td>
-                                        <td>Win 95+1</td>
-                                        <td>Hiển thị</td>
+                                        <td class='hidden'>{{ $cate->id }}</td>
+                                        <td>{{ $cate->name }}</td>
+                                        <td>{{ $cate->description }}</td>
+                                        <td>@if($cate->parent) {{ $cate->parent->name }} @endif</td>
+                                        <td class='hidden'>@if($cate->parent) {{ $cate->parent->id }} @endif</td>
+                                        <td>{{ $cate->status === 1 ? 'Hiển thị' : 'Không hiển thị' }}</td>
                                         <td align="center">
                                             <button class="btn btn-primary btn-xs" data-title="Edit" data-toggle="modal" data-target="#edit" ><span class="glyphicon glyphicon-pencil"></span></button>
-                                            <button class="btn btn-danger btn-xs" data-title="Delete" data-toggle="modal" data-target="#delete" ><span class="glyphicon glyphicon-trash"></span></button>
+                                            <a href='administrator/category/delete/{{ $cate->id }}' class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-trash"></span></a>
                                         </td>
                                     </tr>
-                                    <tr>
-                                        <td>Trident</td>
-                                        <td>Internet Explorer 4.0</td>
-                                        <td>Win 95+2</td>
-                                        <td>Hiển thị</td>
-                                        <td align="center">
-                                            <button class="btn btn-primary btn-xs" data-title="Edit" data-toggle="modal" data-target="#edit" ><span class="glyphicon glyphicon-pencil"></span></button>
-                                            <button class="btn btn-danger btn-xs" data-title="Delete" data-toggle="modal" data-target="#delete" ><span class="glyphicon glyphicon-trash"></span></button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Trident</td>
-                                        <td>Internet Explorer 4.0</td>
-                                        <td>Win 95+3</td>
-                                        <td>Hiển thị</td>
-                                        <td align="center">
-                                            <button class="btn btn-primary btn-xs" data-title="Edit" data-toggle="modal" data-target="#edit" ><span class="glyphicon glyphicon-pencil"></span></button>
-                                            <button class="btn btn-danger btn-xs" data-title="Delete" data-toggle="modal" data-target="#delete" ><span class="glyphicon glyphicon-trash"></span></button>
-                                        </td>
-                                    </tr>
+                                    @endforeach
                                 </tbody>                
                             </table>
                             
@@ -243,19 +229,14 @@
                                             <h4 class="modal-title" id="labelFormUpdate">Modal title</h4>
                                         </div>
                                         <div class="modal-body">
-                                            <form class="form-horizontal">
+                                            <form class="form-horizontal" method="post">
+                                                <input type='hidden' name='_token' value="{{ csrf_token() }}">
                                                 <div class="form-group">
                                                     <label class="control-label col-lg-3">Danh mục</label>
 
                                                     <div class="col-lg-8">
-                                                        <select data-placeholder="Chọn danh mục" id="cateU" class="form-control chzn-select" tabindex="5">
-                                                            <option value="0">-- Chọn danh mục --</option>
-                                                            <optgroup label="NFC EAST">
-                                                                <option>Dallas Cowboys</option>
-                                                                <option>New York Giants</option>
-                                                                <option>Philadelphia Eagles</option>
-                                                                <option>Washington Redskins</option>
-                                                            </optgroup>
+                                                        <select data-placeholder="Chọn danh mục" id="cateU" name="selCate" class="form-control chzn-select" tabindex="5">
+                                                            
                                                         </select>
                                                     </div>
                                                 </div>
@@ -265,7 +246,7 @@
                                                     <label for="text" class="control-label col-lg-3">Tên danh mục</label>
 
                                                     <div class="col-lg-8">
-                                                        <input type="text" id="nameCateU" placeholder="Nhập tên danh mục" class="form-control">
+                                                        <input type="text" id="nameCateU" name="txtNameCate" placeholder="Nhập tên danh mục" class="form-control">
                                                     </div>
                                                 </div>
                                                 <!-- /.form-group -->
@@ -274,21 +255,21 @@
                                                     <label for="text" class="control-label col-lg-3">Mô tả</label>
 
                                                     <div class="col-lg-8">
-                                                        <textarea class="form-control" id="desCateU" placeholder="Mô tả không quá 25 ký tự"></textarea>
+                                                        <textarea class="form-control" id="desCateU" name="txtDesCate" placeholder="Mô tả không quá 25 ký tự"></textarea>
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
                                                     <label for="text" class="control-label col-lg-3"></label>
                                                     <div class="col-lg-8">
                                                         <div class="checkbox anim-checkbox" style="padding: 0px">
-                                                            <input type="checkbox" id="ch4" class="success">
+                                                            <input type="checkbox" id="ch4" name="checkStatus" class="success">
                                                             <label for="ch4">Hiển thị</label>
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="modal-footer">
-                                                    <button class="btn btn-primary btn-grad" data-original-title="" title="">Cập nhật</button>
-                                                    <button class="btn btn-warning btn-grad" data-original-title="" title="">Làm mới</button>
+                                                    <button type="button" class="btn btn-primary btn-grad" data-loading-text="<i class='fa fa-refresh fa-spin'></i> Watting" id="btnSubmitUpdate">Cập nhật</button>
+                                                    <input type="button" class="btn btn-warning btn-grad" value="Làm mới" id="btnResetUpdate">
                                                     <button type="button" class="btn btn-danger btn-grad" data-dismiss="modal">Close</button>
                                                 </div>
                                             </form>
@@ -327,115 +308,20 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.12/js/jquery.dataTables.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.12/js/dataTables.bootstrap.min.js"></script>
 
-    <script src="assets/sortable/jquery-sortable-lists.js"></script>
-
-    <!-- Custom  -->
-    <script src="assets/custom/handle-form.js"></script>
-
     <!-- Metis core scripts -->
     <script src="assets/js/core.js"></script>
     <!-- Metis demo scripts -->
     <script src="assets/js/app.js"></script>
-    
-    <script>
-        $(document).ready(function() {
 
-            $('#dataTable').table({
-                numberColumn: 5,
-                orderColum: 0,
-                selector: {
-                    select: ['cateU'],
-                    input: ['nameCateU', 'desCateU'],
-                    form: 'formUpdateCate'
-                }
-            });
 
-            $('#btnResetCreate').click(function (){
-                $('#formCreateCate').handleForm({reset: true});
-            });
+    <!-- Custom  -->.
+    <script src="assets/sortable/jquery-sortable-lists.js"></script>
+    <script src="assets/custom/handle-form.js"></script>
+    <script src="assets/custom/category.min.js"></script>
 
-            var options = {
-                placeholderCss: {'background-color': '#f9e3d3', 'border-radius': '3px'},
-                hintCss: {'background-color':'#bbf'},
-                
-                isAllowed: function( cEl, hint, target )
-                {
-                    if( target.data('module') === 'c' && cEl.data('module') !== 'c' )
-                    {
-                        hint.css('background-color', '#ff9999');
-                        return false;
-                    }
-                    else
-                    {
-                        hint.css('background-color', '#baf9ce');
-                        hint.css('border-radius', '3px');
-                        return true;
-                    }
-                },
-                opener: {
-                    active: true,
-                    as: 'html',  // if as is not set plugin uses background image
-                    close: '<i class="fa fa-minus c1"></i>',  // or 'fa-minus c3',  // or './imgs/Remove2.png',
-                    open: '<i class="fa fa-plus c2"></i>',  // or 'fa-plus',  // or'./imgs/Add2.png',
-                    openerCss: {
-                        'display': 'inline-block',
-                        'float': 'left',
-                        'margin-left': '0px',
-                        'margin-right': '5px',
-                        //'background-position': 'center center', 'background-repeat': 'no-repeat',
-                        'font-size': '1.1em'
-                    }
-                },
-                ignoreClass: 'clickable'
-            };
-
-            
-            $('#tree_panel').sortableLists(options);
-            var listBefore = $('#tree_panel').sortableListsToArray();
-            console.log(listBefore);
-
-            $('#updateSortList').click(function() {
-                var arr = [];
-                $.each(listIdChange, function(index, value) {
-                    var check = true;
-                    var pid = $('#' + value).parent().parent('li').attr('data-module');
-                    typeof pid != 'undefined' ? pid = pid : pid = 0;
-                    for(var i=0; i<listBefore.length; i++){
-                        if(value.split('-')[1] == listBefore[i].id && pid == listBefore[i].parentId) {
-                            check = false;
-                            break;
-                        }
-                    }                    
-                    if(check) {
-                        arr.push({
-                            pid: pid,
-                            id: value.split('-')[1],
-                        });
-                    }
-                });
-
-                if(arr.length > 0) {
-                    var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
-                    $.ajax({
-                        url: '{{ route('ajaxUpdateCate') }}',
-                        type: "POST",
-                        data: {'data': arr, _token: CSRF_TOKEN},
-                        success: function( msg ) {
-                            if(msg === 'success') {
-                                location.reload();
-                            }
-                        }
-                    });
-                }
-            });
-            
-        });
-
-    </script>
-
-    @if(Session::has('success'))
+    @if(Session::has('messages'))
         <script>
-            $.notifier('success','Thông báo','{{ Session::get('success') }}','1500');
+            $.notifier('{{ Session::has('type') ? Session::get('type') : 'success' }}','Thông báo','{{ Session::get('messages') }}','1500');
         </script> 
     @endif
 

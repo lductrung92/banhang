@@ -9,22 +9,20 @@ function showOptionCategories($categories, $parent_id = 0, $char = '')
         {
             if($item->pid === 0) {
                 echo '<option style="font-weight: bold;" value="'.$item->id.'">';
-                echo $item->name;
+                echo htmlspecialchars($item->name);
                 echo '</option>';
                 unset($categories[$key]);
-                showOptionCategories($categories, $item->id, $char.'--&nbsp;');
+                showOptionCategories($categories, $item->id, $char.'-- ');
             } else {
                 
                 echo '<option value="'.$item->id.'">';
-                echo $char . $item->name;
+                echo htmlspecialchars($char . $item->name);
                 unset($categories[$key]);
-                showOptionCategories($categories, $item->id, $char.'--&nbsp;');
+                showOptionCategories($categories, $item->id, $char.'-- ');
                 echo '</option>';
             }
         }
-        
     }
-    
 }
 
 function showListCategories($categories, $parent_id = 0, $char = '')
@@ -45,7 +43,7 @@ function showListCategories($categories, $parent_id = 0, $char = '')
         foreach ($cate_child as $key => $item)
         {
             // Hiển thị tiêu đề chuyên mục
-            echo '<li class="sortableListsOpen" id="item-'. $item->id .'" data-module="'. $item->id .'"><div>'.$item->name . '</div>';
+            echo '<li class="sortableListsOpen" id="item-'. $item->id .'" data-module="'. $item->id .'"><div>'.htmlspecialchars($item->name) . '</div>';
              
             // Tiếp tục đệ quy để tìm chuyên mục con của chuyên mục đang lặp
             showListCategories($categories, $item->id, $char.'|---');

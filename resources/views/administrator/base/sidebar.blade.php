@@ -32,7 +32,7 @@
 
         <li>
             <a href="{{ route('pageCateIndex') }}">
-                <i class="fa fa-paw"></i>
+                <i class="fa fa-magic"></i>
                 <span class="link-title">Danh mục</span>
             </a>
         </li>
@@ -40,27 +40,79 @@
         <li class="">
             <a href="javascript:;">
                 <i class="fa fa-building "></i>
-                <span class="link-title">Layouts</span>
+                <span class="link-title">Sản phẩm</span>
                 <span class="fa arrow"></span>
             </a>
             <ul class="collapse">
                 <li>
                     <a href="boxed.html">
-                        <i class="fa fa-angle-right"></i>&nbsp; Boxed Layout 
+                        <i class="fa fa-angle-right"></i>&nbsp; Danh sách     
+                    </a>
+                </li>
+                <li>
+                    <a href="boxed.html">
+                        <i class="fa fa-angle-right"></i>&nbsp; Khuyến mãi     
+                    </a>
+                </li>
+                <li>
+                    <a href="boxed.html">
+                        <i class="fa fa-angle-right"></i>&nbsp; Tồn kho
                     </a>
                 </li>
             </ul>
         </li>
+
+        <li class="">
+            <a href="javascript:;">
+                <i class="fa fa-building "></i>
+                <span class="link-title">Khuyễn mãi</span>
+                <span class="fa arrow"></span>
+            </a>
+            <ul class="collapse">
+                <li>
+                    <a href="boxed.html">
+                        <i class="fa fa-angle-right"></i>&nbsp; Mã giảm giá     
+                    </a>
+                </li>
+                <li>
+                    <a href="boxed.html">
+                        <i class="fa fa-angle-right"></i>&nbsp; VAT     
+                    </a>
+                </li>
+            </ul>
+        </li>
+
+        <li class="nav-header">{{ trans('manage.failed') }}</li>
         
         <li>
-            <a href="table.html">
-                <i class="fa fa-table"></i>
-                <span class="link-title">Tables</span>
+            <a href="{{ route('pageCateIndex') }}">
+                <i class="fa fa-magic"></i>
+                <span class="link-title">Thành viên</span>
+            </a>
+        </li>
+        <li>
+            <a href="{{ route('pageCateIndex') }}">
+                <i class="fa fa-magic"></i>
+                <span class="link-title">Khách hàng</span>
             </a>
         </li>
 
+        <li class="nav-header">Cài đặt</li>
+        
+        <li>
+            <a href="{{ route('pageCateIndex') }}">
+                <i class="fa fa-magic"></i>
+                <span class="link-title">Thành viên</span>
+            </a>
+        </li>
+        <li>
+            <a href="{{ route('pageCateIndex') }}">
+                <i class="fa fa-magic"></i>
+                <span class="link-title">Khách hàng</span>
+            </a>
+        </li>
+        
         <li class="nav-divider"></li>
-
         <li>
             <a href="login.html">
                 <i class="fa fa-sign-in"></i>
