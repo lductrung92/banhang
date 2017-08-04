@@ -22,5 +22,6 @@ Route::group(['prefix' => 'administrator'], function() {
     Route::group(['prefix' => 'category'], function() {
         Route::get('/', ['as' => 'pageCateIndex', 'uses' => 'Administrator\CateController@index']);
         Route::post('/insert', ['as' => 'postInsertCate', 'uses' => 'Administrator\CateController@postInsert']);
+        Route::post('/ajax/update', ['as' => 'ajaxUpdateCate', 'uses' => 'Administrator\CateController@ajaxPostInsert']);
     });
 });

@@ -356,8 +356,7 @@
                 .unbind("mouseup", endDrag);
 
             var check = true;
-            var a = cEl.el;
-            console.log(a.parents('li'));
+
             $.each(listIdChange, function(index, value) {
                 if (cEl.el[0].id == value) {
                     check = false;
@@ -365,9 +364,6 @@
                 }
             });
             if (check) listIdChange.push(cEl.el[0].id);
-
-            console.log(listIdChange);
-
         }
 
         //////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -831,7 +827,7 @@
      * @desc jQuery plugin
      * @returns this to unsure chaining
      */
-    $.fn.sortableListsToArray = function(arr, parentId = 0) {
+    $.fn.sortableListsToArray = function(arr, parentId = 'item-0') {
         arr = arr || [];
         var order = 0;
 
@@ -845,8 +841,8 @@
                 throw 'Previous item in console.log has no id. It is necessary to create the array.';
             }
 
-            listItem.id = id;
-            listItem.parentId = parentId;
+            listItem.id = id.split('-')[1];
+            listItem.parentId = parentId.split('-')[1];
             listItem.value = li.find('div').first().text();
             listItem.order = order;
             arr.push(listItem);

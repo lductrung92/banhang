@@ -70,6 +70,7 @@
 @endsection
 
 @section('content')
+
 <div id="content">
     <div class="outer">
         <div class="inner bg-light lter">
@@ -394,8 +395,38 @@
             console.log(listBefore);
 
             $('#updateSortList').click(function() {
-                var listAfter = $('#tree_panel').sortableListsToArray();
-                console.log($(this));
+                var arr = [];
+                $.each(listIdChange, function(index, value) {
+                    var check = true;
+                    var pid = $('#' + value).parent().parent('li').attr('data-module');
+                    typeof pid != 'undefined' ? pid = pid : pid = 0;
+                    for(var i=0; i<listBefore.length; i++){
+                        if(value.split('-')[1] == listBefore[i].id && pid == listBefore[i].parentId) {
+                            check = false;
+                            break;
+                        }
+                    }                    
+                    if(check) {
+                        arr.push({
+                            pid: pid,
+                            id: value.split('-')[1],
+                        });
+                    }
+                });
+
+                if(arr.length > 0) {
+                    var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+                    $.ajax({
+                        url: '{{ route('ajaxUpdateCate') }}',
+                        type: "POST",
+                        data: {'data': arr, _token: CSRF_TOKEN},
+                        success: function( msg ) {
+                            if(msg === 'success') {
+                                location.reload();
+                            }
+                        }
+                    });
+                }
             });
             
         });

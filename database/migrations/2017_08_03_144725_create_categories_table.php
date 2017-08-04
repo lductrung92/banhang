@@ -17,7 +17,7 @@ class CreateCategoriesTable extends Migration
             $table->increments('id');
             $table->integer('pid');
             $table->string('name')->unique();
-            $table->string('description');
+            $table->string('description')->nullable();
             $table->tinyInteger('status');
             $table->timestamps();
         });

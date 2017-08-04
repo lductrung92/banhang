@@ -3,6 +3,7 @@
 <head>
     <base href="{{ asset('/') }}" />
     <meta charset="UTF-8">
+    <meta name="csrf-token" content="{{ csrf_token() }}" />
     <!--IE Compatibility modes-->
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <!--Mobile first-->
