@@ -1,6 +1,6 @@
 @extends('administrator.base.base')
 
-@section('title', 'Quản lý danh mục')
+@section('title', 'Quản lý sản phẩm')
 
 @section('lib-css')
     <!-- Bootstrap -->
@@ -26,28 +26,6 @@
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.12/css/dataTables.bootstrap.min.css">
 
-    <style type="text/css">
-       
-        ul, li {
-            list-style-type:none;
-        }
-
-        #tree_panel li{
-            margin:3px; 
-            cursor: move;
-        }
-
-        li div {
-            padding:7px;
-            background-color:#e1f1e6;
-            border-radius: 3px;
-           
-        }
-        .c1 { color: #f77720;cursor: pointer;}
-        .c2 { color: #b5e853;cursor: pointer; }
-
-    </style>
-
     <script>
         less = {
             env: "development",
@@ -64,7 +42,7 @@
 @section('main-bar')
 <div class="main-bar">
     <h3>
-        <i class="fa fa-magic"></i>&nbsp;Danh mục sản phẩm
+        <i class="fa fa-magic"></i>&nbsp;Sản phẩm
     </h3>
 </div>
 @endsection
@@ -75,127 +53,14 @@
     <div class="outer">
         <div class="inner bg-light lter">
             <div class="row">
-                <div class="col-lg-6">
-                    <div class="box dark">
-                        <header>
-                            <div class="icons"><i class="fa fa-edit"></i></div>
-                            <h5>Thêm mới danh mục</h5>
-                            <!-- .toolbar -->
-                            <div class="toolbar">
-                                <nav style="padding: 8px;">
-                                    <a href="javascript:;" class="btn btn-default btn-xs collapse-box">
-                                        <i class="fa fa-minus"></i>
-                                    </a>
-                                    <a href="javascript:;" class="btn btn-default btn-xs full-box">
-                                        <i class="fa fa-expand"></i>
-                                    </a>
-                                    <a href="javascript:;" class="btn btn-danger btn-xs close-box">
-                                        <i class="fa fa-times"></i>
-                                    </a>
-                                </nav>
-                            </div>            
-                            <!-- /.toolbar -->
-                        </header>
-
-                        <div id="div-1" class="body">
-                            <form class="form-horizontal" id="formCreateCate" action="{{ route('postInsertCate') }}" method="post">
-                                <input type='hidden' name='_token' value="{{ csrf_token() }}">
-                                <div class="form-group">
-                                    <label class="control-label col-lg-4">Danh mục</label>
-                                    <div class="col-lg-8">
-                                        <select data-placeholder="Chọn danh mục" class="form-control chzn-select" tabindex="5" name="selCate">
-                                            <option value="0">-- Chọn danh mục --</option>
-                                            {{ showOptionCategories($cateops) }}
-                                        </select>
-                                    </div>
-                                </div>
-                                <!-- /.form-group -->
-                
-                                <div class="form-group @if ($errors->has('txtNameCate')) has-error @endif">
-                                    <label for="text" class="control-label col-lg-4">Tên danh mục</label>
-
-                                    <div class="col-lg-8">
-                                        <input type="text" name="txtNameCate" placeholder="Nhập tên danh mục" class="form-control">
-                                        @if ($errors->has('txtNameCate')) <p class="help-block">{{ $errors->first('txtNameCate') }}</p> @endif
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="text" class="control-label col-lg-4">Link SEO</label>
-                                    <div class="col-lg-8">
-                                        <input type="text" name="txtSlug" placeholder="Nhập link seo" class="form-control">
-                                        <p class="help-block"><i>* Nhập không dấu cách nhau bằng ký tự '-'</i></p>
-                                    </div>
-                                </div>
-                                <!-- /.form-group -->
-                                
-                                <div class="form-group">
-                                    <label for="text" class="control-label col-lg-4">Mô tả</label>
-
-                                    <div class="col-lg-8">
-                                        <textarea class="form-control" name="txtDesCate" placeholder="Mô tả không quá 25 ký tự"></textarea>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="text" class="control-label col-lg-4"></label>
-                                    <div class="col-lg-8">
-                                        <div class="checkbox anim-checkbox" style="padding: 0px">
-                                            <input type="checkbox" name="checkStatus" id="ch3" class="success" checked>
-                                            <label for="ch3">Hiển thị</label>
-                                        </div>
-                                    </div>
-                                </div>
-                                
-                                <div class="text-right">
-                                    <input type="submit" class="btn btn-primary btn-flat" value="Thêm mới">
-                                    <input type="button" class="btn btn-warning btn-flat" id="btnResetCreate" value="Làm mới">
-                                </div>
-                            </form>
-                            
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-lg-6">
-                    <div class="box inverse">
-                        <header>
-                            <div class="icons"><i class="fa fa-th-large"></i></div>
-                            <h5>Cây danh mục</h5>
-                            <!-- .toolbar -->
-                            <div class="toolbar">
-                                <nav style="padding: 8px;">
-                                    <a href="javascript:;" class="btn btn-default btn-xs collapse-box">
-                                        <i class="fa fa-minus"></i>
-                                    </a>
-                                    <a href="javascript:;" class="btn btn-default btn-xs full-box">
-                                        <i class="fa fa-expand"></i>
-                                    </a>
-                                    <a href="javascript:;" class="btn btn-danger btn-xs close-box">
-                                        <i class="fa fa-times"></i>
-                                    </a>
-                                </nav>
-                            </div>    <!-- /.toolbar -->
-                        </header>
-                        <div id="div-2" class="body">
-                            
-                            <ul class="tree_panel listsClass" id="tree_panel">
-                                {{ showListCategories($catels) }}
-                            </ul>
-                            <div class="text-right">
-                                <button class="btn btn-primary btn-flat" id="updateSortList" data-original-title="" title="">Lưu</button>
-                                <button class="btn btn-danger btn-flat" data-original-title="" title="">Hủy</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- /.row -->
-            <div class="row">
                 <div class="col-lg-12">
                     <div class="box">
                         <header>
                             <div class="icons"><i class="fa fa-table"></i></div>
                             <h5>Bảng danh mục</h5>
+                            <div style="padding: 0px; float: right; margin: 4px;">
+                                <button type="button" class="btn btn-primary btn-flat"><i class="fa fa-plus-circle"></i> Thêm</button>
+                            </div>
                         </header>
                         <div id="collapse4" class="body">
                             <table id="dataTable" class="table table-bordered table-condensed table-hover table-striped">
@@ -212,21 +77,7 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach($catetbs as $cate)
-                                    <tr>
-                                        <td class='hidden'>{{ $cate->id }}</td>
-                                        <td>{{ $cate->name }}</td>
-                                        <td>{{ $cate->description }}</td>
-                                        <td>{{ $cate->slug }}</td>
-                                        <td>@if($cate->parent) {{ $cate->parent->name }} @endif</td>
-                                        <td class='hidden'>@if($cate->parent) {{ $cate->parent->id }} @endif</td>
-                                        <td>{{ $cate->status === 1 ? 'Hiển thị' : 'Không hiển thị' }}</td>
-                                        <td align="center">
-                                            <button class="btn btn-primary btn-xs btn-flat" data-title="Edit" data-toggle="modal" data-target="#edit" ><span class="glyphicon glyphicon-pencil"></span></button>
-                                            <a href='administrator/category/delete/{{ $cate->id }}' class="btn btn-danger btn-xs btn-flat"><span class="glyphicon glyphicon-trash"></span></a>
-                                        </td>
-                                    </tr>
-                                    @endforeach
+                                    
                                 </tbody>                
                             </table>
                             
@@ -333,7 +184,7 @@
     <!-- Custom  -->.
     <script src="assets/sortable/jquery-sortable-lists.js"></script>
     <script src="assets/custom/handle-form.js"></script>
-    <script src="assets/custom/category.js"></script>
+    <script src="assets/custom/product.js"></script>
 
     @if(Session::has('messages'))
         <script>

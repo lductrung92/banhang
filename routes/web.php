@@ -28,4 +28,8 @@ Route::group(['prefix' => 'administrator'], function() {
 
         Route::post('/ajax/update', ['as' => 'ajaxUpdateCate', 'uses' => 'Administrator\CateController@ajaxPostInsert']);
     });
+
+    Route::group(['prefix' => 'product'], function() {
+        Route::get('/', ['as' => 'pageProductIndex', 'uses' => 'Administrator\ProductController@index']);
+    });
 });

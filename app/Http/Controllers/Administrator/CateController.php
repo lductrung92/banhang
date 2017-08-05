@@ -25,12 +25,10 @@ class CateController extends Controller
     }
 
     public function postInsert(CateRequest $request) {
-        
-
-
         $cate = new Category();
         $cate->pid = $request->selCate;
         $cate->name = $request->txtNameCate;
+        $cate->slug = $request->txtSlug == '' ? changeTitle($request->txtNameCate) : changeTitle($request->txtSlug);
         $cate->description = $request->txtDesCate;
         $cate->status = empty($request->checkStatus) ? 0 : 1;
         $cate->save();
@@ -60,6 +58,7 @@ class CateController extends Controller
             $cate = Category::find($id);
             $cate->pid = $request->selCate;
             $cate->name = $request->txtNameCate;
+            $cate->slug = $request->txtSlug == '' ? changeTitle($request->txtNameCate) : changeTitle($request->txtSlug);
             $cate->description = $request->txtDesCate;
             $cate->status = empty($request->checkStatus) ? 0 : 1;
             $cate->update();
@@ -82,7 +81,7 @@ class CateController extends Controller
     public function getDeleteCate($id) {
         $cate = Category::find($id);
         if(count($cate->childs))
-            return back()->with('type', 'danger')->with('messages', 'Xóa thất bại! <?p Bạn phải xóa các danh mục con của danh mục này trước');
+            return back()->with('type', 'danger')->with('messages', 'Xóa thất bại! Bạn phải xóa các danh mục con của danh mục này trước');
         else {
             $cate->delete();
             return back()->with('messages', 'Xóa thành công');

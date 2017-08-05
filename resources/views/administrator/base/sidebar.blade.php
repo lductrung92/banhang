@@ -45,7 +45,7 @@
             </a>
             <ul class="collapse">
                 <li>
-                    <a href="boxed.html">
+                    <a href="{{ route('pageProductIndex') }}">
                         <i class="fa fa-angle-right"></i>&nbsp; Danh sách     
                     </a>
                 </li>

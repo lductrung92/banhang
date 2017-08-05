@@ -27,16 +27,18 @@
             language: 'vi',
             orderColum: 0,
             type: 'asc',
+            colums: {},
+            title: {},
+            url: null,
             selector: {
-                select: null,
-                input: [],
-                status: null,
                 form: null,
                 button: {
                     update: null,
                     reset: null
                 }
-            }
+            },
+            setTable: function(me) {},
+            beforePopupForm: function(obj) {}
         }
 
         var settings = $.extend(defaults, options);
@@ -128,22 +130,20 @@
         }
 
         function beforePopupForm(obj) {
-            var input = settings.selector.input;
-            $('#labelFormUpdate').html('Cập nhật danh mục - ' + '<i style="color: red">' + obj[1] + '</i>');
-            $.each(input, function(i, val) {
-                $('#' + val).val(obj[i + 1]);
+            var selector = settings.colums;
+            $('#' + settings.title.id).html('Cập nhật danh mục - ' + '<i style="color: red">' + obj[settings.title.indexText] + '</i>')
+            $.each(selector, function(i, value) {
+                var sel = $('#' + settings.selector.form).find(value.ftype + '[name=' + i + ']');
+                if (i == 'id')
+                    $('#' + settings.selector.form).find('form').attr('action', settings.url + obj[value.index]);
+                if (value.type == 'text')
+                    sel.val(obj[value.index]);
+                if (value.type == 'select')
+                    obj[value.index] == '' ? sel.val(0) : sel.val(obj[value.index]);
+                if (value.type == 'checkbox')
+                    obj[value.index] == 'Hiển thị' ? sel.prop("checked", true) : sel.prop("checked", false);
             });
-
-            obj[5] == 'Hiển thị' ? $('#' + settings.selector.status).prop("checked", true) : $('#' + settings.selector.status).prop("checked", false);
-
-            obj[4] == '' ? $('#' + settings.selector.select).val(0) : $('#' + settings.selector.select).val(obj[4]);
-
-            $('#' + settings.selector.form).find('form').attr('action', 'administrator/category/update/' + obj[0]);
             c = $('#' + settings.selector.form).find('form').serialize();
-            // type.html('Cập nhật - ' + '<i style="color: red">' + obj[0] + '</i>');
-            // cate.val(0);
-            // name.val(obj);
-            // des.val(obj);
         }
     }
 

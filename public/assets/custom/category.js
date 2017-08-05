@@ -1,15 +1,25 @@
 $(document).ready(function() {
 
     var str = $('form#formCreateCate select[name=selCate]').html();
-    $('#cateU').append(str);
+    $('#formUpdateCate select[name=selCate]').append(str);
 
     $('#dataTable').table({
-        numberColumn: 7,
+        numberColumn: 8,
+        url: 'administrator/category/update/',
+        title: {
+            id: 'labelFormUpdate',
+            indexText: 1
+        },
+        colums: {
+            id: { ftype: '', index: 0, type: 'text' },
+            txtNameCate: { ftype: 'input', index: 1, type: 'text' },
+            txtDesCate: { ftype: 'textarea', index: 2, type: 'text' },
+            txtSlug: { ftype: 'input', index: 3, type: 'text' },
+            selCate: { ftype: 'select', index: 5, type: 'select' },
+            checkStatus: { ftype: 'input', index: 6, type: 'checkbox' },
+        },
         orderColum: 0,
         selector: {
-            select: 'cateU',
-            input: ['nameCateU', 'desCateU'],
-            status: 'ch4',
             form: 'formUpdateCate',
             button: {
                 update: $('#btnSubmitUpdate'),
