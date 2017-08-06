@@ -338,6 +338,7 @@
     @if(Session::has('messages'))
         <script>
             $.notifier('{{ Session::has('type') ? Session::get('type') : 'success' }}','Thông báo','{{ Session::get('messages') }}','1500');
+           
         </script> 
     @endif
 

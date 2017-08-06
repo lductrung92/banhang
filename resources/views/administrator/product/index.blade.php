@@ -59,7 +59,7 @@
                             <div class="icons"><i class="fa fa-table"></i></div>
                             <h5>Bảng danh mục</h5>
                             <div style="padding: 0px; float: right; margin: 4px;">
-                                <button type="button" class="btn btn-primary btn-flat"><i class="fa fa-plus-circle"></i> Thêm</button>
+                                <a href="{{ route('getInsertProduct') }}" type="button" class="btn btn-primary btn-flat"><i class="fa fa-plus-circle"></i> Thêm</a>
                             </div>
                         </header>
                         <div id="collapse4" class="body">
@@ -179,7 +179,6 @@
     <script src="assets/js/core.js"></script>
     <!-- Metis demo scripts -->
     <script src="assets/js/app.js"></script>
-
 
     <!-- Custom  -->.
     <script src="assets/sortable/jquery-sortable-lists.js"></script>

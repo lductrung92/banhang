@@ -17,5 +17,10 @@ url=https://your_user_name@github.com/yy/repo_name.git
 to
 url=ssh://git@github.com/your_user_name/repo_name.git
 
+Install: composer vs git vs xampp
++ xampp
++ composer: sudo curl -s https://getcomposer.org/installer | /opt/lampp/bin/php
+	    sudo ln -s /opt/lampp/bin/php /usr/local/bin/php
+
 Laravel: https://sebastiandedeyne.com/posts/2017/non-breaking-seo-friendly-urls-in-laravel
 

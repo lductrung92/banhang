@@ -26,37 +26,36 @@
         <li class="nav-divider"></li>
         <li class="">
             <a href="{{ route('pageIndexAdmin') }}">
-                <i class="fa fa-dashboard"></i><span class="link-title">&nbsp;Bảng điều khiển</span>
+                <i class="{{ trans('manage.dashboard.icon') }}"></i><span class="link-title">&nbsp;&nbsp;{{ trans('manage.dashboard.title') }}</span>
             </a>
         </li>
 
         <li>
             <a href="{{ route('pageCateIndex') }}">
-                <i class="fa fa-magic"></i>
-                <span class="link-title">Danh mục</span>
+                <i class="{{ trans('manage.category.icon') }}"></i><span class="link-title">&nbsp;&nbsp;{{ trans('manage.category.title') }}</span>
             </a>
         </li>
 
         <li class="">
             <a href="javascript:;">
-                <i class="fa fa-building "></i>
-                <span class="link-title">Sản phẩm</span>
+                <i class="{{ trans('manage.product.icon') }}"></i>
+                <span class="link-title">&nbsp;&nbsp;{{ trans('manage.product.title') }}</span>
                 <span class="fa arrow"></span>
             </a>
             <ul class="collapse">
                 <li>
                     <a href="{{ route('pageProductIndex') }}">
-                        <i class="fa fa-angle-right"></i>&nbsp; Danh sách     
+                        <i class="{{ trans('manage.product.childs.list.icon') }}"></i>&nbsp;&nbsp;{{ trans('manage.product.childs.list.title') }}
                     </a>
                 </li>
                 <li>
                     <a href="boxed.html">
-                        <i class="fa fa-angle-right"></i>&nbsp; Khuyến mãi     
+                        <i class="{{ trans('manage.product.childs.sale.icon') }}"></i>&nbsp;&nbsp;{{ trans('manage.product.childs.sale.title') }}     
                     </a>
                 </li>
                 <li>
                     <a href="boxed.html">
-                        <i class="fa fa-angle-right"></i>&nbsp; Tồn kho
+                        <i class="{{ trans('manage.product.childs.warehouse.icon') }}"></i>&nbsp;&nbsp;{{ trans('manage.product.childs.warehouse.title') }}
                     </a>
                 </li>
             </ul>
@@ -82,7 +81,7 @@
             </ul>
         </li>
 
-        <li class="nav-header">{{ trans('manage.failed') }}</li>
+        <li class="nav-header"></li>
         
         <li>
             <a href="{{ route('pageCateIndex') }}">

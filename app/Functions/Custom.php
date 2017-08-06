@@ -54,6 +54,15 @@ function showListCategories($categories, $parent_id = 0, $char = '')
     
 }
 
+function showOptionCateChilds($categories) 
+{
+    for($i = 0; $i < count($categories); $i++){
+        echo '<option value="'.$categories[$i]['id'].'">';
+        echo htmlspecialchars($categories[$i]['name']);
+        echo '</option>'; 
+    }
+}
+
 function changeTitle($str, $strSymbol = ' ', $case = MB_CASE_LOWER)
 {// MB_CASE_UPPER / MB_CASE_TITLE / MB_CASE_LOWER
     $str = trim($str);
