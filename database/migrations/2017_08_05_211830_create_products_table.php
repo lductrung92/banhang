@@ -21,10 +21,10 @@ class CreateProductsTable extends Migration
             $table->string('title')->nullable();
             $table->string('slug');
             $table->integer('price');
-            $table->string('options');
-            $table->longText('description');
+            $table->string('options')->nullable();
+            $table->longText('description')->nullable();
             $table->tinyInteger('status');
-            $table->tinyInteger('isnew');
+            $table->tinyInteger('isnew')->nullable();
             $table->foreign('cid')->references('id')->on('categories')->onDelete('cascade');
             $table->timestamps();
         });

@@ -84,6 +84,8 @@
                                         location.reload();
                                     } else {
                                         var obj = msg.messages;
+                                        $('div.form-group').removeClass('has-error');
+                                        $('div.form-group .help-block').remove();
                                         $.each(obj, function(index, value) {
                                             var selector = $(':input[name=' + index + ']');
                                             selector.after('<p class="help-block">' + value + '</p>');
@@ -98,7 +100,7 @@
                                     settings.selector.button.update.button('reset');
                                 }, 1000);
                             }
-                        })
+                        });
                     }
                 });
 
@@ -140,6 +142,8 @@
 
             function beforePopupForm(obj) {
                 var selector = settings.colums;
+                $('div.form-group').removeClass('has-error');
+                $('div.form-group .help-block').remove();
                 $('#' + settings.title.id).html('Cập nhật danh mục - ' + '<i style="color: red">' + obj[settings.title.indexText] + '</i>')
                 $.each(selector, function(i, value) {
                     var sel = $('#' + settings.selector.form).find(value.ftype + '[name=' + i + ']');

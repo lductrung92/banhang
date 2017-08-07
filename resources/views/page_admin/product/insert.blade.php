@@ -74,13 +74,6 @@
                         </ul>
                     </div>
                 </div>
-                <div class="panel-body">
-                    <div class="col-lg-12">
-                        <fieldset>
-                            <legend class="text-semibold"><i class="icon-pen"></i>&nbsp;&nbsp;Thêm mới</legend>
-                        </fieldset>
-                    </div>  
-                </div>
                 
                 <div class="panel-body">
                     <div class="col-lg-12">
@@ -99,11 +92,10 @@
                                 </div>
                                 <!-- /.form-group -->
 
-                                <div class="form-group @if ($errors->has('txtNameProduct')) has-error @endif">
+                                <div class="form-group">
                                     <label for="text" class="col-lg-2 control-label">Tên sản phẩm</label>
                                     <div class="col-lg-9">
                                         <input type="text" name="txtNameProduct" placeholder="Nhập tên sản phẩm" class="form-control">
-                                        @if ($errors->has('txtNameProduct')) <p class="help-block">{{ $errors->first('txtNameProduct') }}</p> @endif
                                     </div>
                                 </div>
 
@@ -134,16 +126,10 @@
                                     </div>
                                 </div>
 
-                                <div class="form-group @if ($errors->has('txtPrice')) has-error @endif">
+                                <div class="form-group">
                                     <label for="text" class="col-lg-2 control-label">Giá</label>
                                     <div class="col-lg-9">
-                                        <div class="input-group">
                                             <input type="text" class="form-control" name="txtPrice" placeholder="Nhập giá sản phẩm" data-mask="VNĐ">
-                                            <span class="input-group-addon">VNĐ</span>
-                                            @if($errors->has('txtPrice'))
-                                                <p class="help-block">{{ $errors->first('txtPrice') }}</p> 
-                                            @endif
-                                        </div>
                                     </div>
                                 </div>
                             </form>
@@ -170,17 +156,15 @@
                     </div> 
                 </div> 
 
-                 <div class="panel-body" style="padding-top: 0px">
+                <div class="panel-body" style="padding-top: 0px">
                     <div class="col-lg-12">
-                         <div class="text-right" style="margin-bottom: 20px;">
+                        <div class="text-right" style="margin-bottom: 20px;">
                             <input type="submit" class="btn btn-primary" id="btnCreateProduct" value="Thêm mới">
                             <input type="button" class="btn btn-warning" id="btnResetCreate" value="Làm mới">
                         </div>
                     </div> 
                 </div> 
-                
             </div>
-
 
             <!-- Footer -->
             <div class="footer text-muted">

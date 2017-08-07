@@ -31,6 +31,7 @@ Route::group(['prefix' => 'administrator'], function() {
     Route::group(['prefix' => 'product'], function() {
         Route::get('/', ['as' => 'pageProductIndex', 'uses' => 'Administrator\ProductController@index']);
         Route::get('/insert', ['as' => 'getInsertProduct', 'uses' => 'Administrator\ProductController@showFormInsert']);
+        Route::post('/insert', ['as' => 'postInsertProduct', 'uses' => 'Administrator\ProductController@insert']);
     });
 
     Route::group(['prefix' => 'filemanager'], function () {
