@@ -46,7 +46,7 @@ class ImageRepository
         return Response::json([
             'error' => false,
             'code'  => 200,
-            'server' => $allowed_filename,
+            'filename' => $allowed_filename,
         ], 200);
 
     }
@@ -117,10 +117,14 @@ class ImageRepository
             }
             @imagecopyresampled($image_p, $image, 0, 0, $value->x, $value->y, $value->w, $value->h, $value->w, $value->h);
             imagejpeg($image_p, $value->name, 90);
-            unlink('uploads/products/thumbnail/' . $path_parts['basename']);
-            $img = $manager->make( 'uploads/products/'  . $path_parts['basename'] )->resize(200, null, function ($constraint) {
-                    $constraint->aspectRatio();
-                })->save('uploads/products/thumbnail/'  . $path_parts['basename'], 90);
+            // unlink('uploads/products/thumbnail/' . $path_parts['basename']);
+            // $img = $manager->make( 'uploads/products/'  . $path_parts['basename'] )->resize(200, null, function ($constraint) {
+            //         $constraint->aspectRatio();
+            //     })->save('uploads/products/thumbnail/'  . $path_parts['basename'], 90);
+
+            $img = $manager->make( 'uploads/caches/'  . $path_parts['basename'] )->resize(200, null, function ($constraint) {
+                $constraint->aspectRatio();
+            });
             return $img;
         }
     }

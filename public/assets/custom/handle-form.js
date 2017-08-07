@@ -22,134 +22,142 @@
     }
 
     $.fn.table = function(options) {
-        var defaults = {
-            numberColumn: 0,
-            language: 'vi',
-            orderColum: 0,
-            type: 'asc',
-            colums: {},
-            title: {},
-            url: null,
-            selector: {
-                form: null,
-                button: {
-                    update: null,
-                    reset: null
-                }
-            },
-            setTable: function(me) {},
-            beforePopupForm: function(obj) {}
-        }
-
-        var settings = $.extend(defaults, options);
-
-        var c;
-
-        return this.each(function() {
-            var me = $(this);
-
-            var table = setTable(me);
-
-            me.find('button.btn-primary').click(function() {
-                var row = $(this).parents('tr')[0];
-                var obj = table.row(row).data();
-                beforePopupForm(obj);
-                $('#' + settings.selector.form).modal('show');
-            });
-
-            settings.selector.button.reset.click(function() {
-                $('#' + settings.selector.form).handleForm({ reset: true });
-            });
-
-            settings.selector.button.update.click(function() {
-                var str = $('#' + settings.selector.form).find('form').serialize();
-                var url = $('#' + settings.selector.form).find('form').attr('action');
-                if (c != str) {
-                    settings.selector.button.update.button('loading');
-                    $.ajax({
-                        url: url,
-                        data: str,
-                        type: 'POST',
-                        dataType: 'json',
-                        success: function(msg) {
-                            setTimeout(function() {
-                                settings.selector.button.update.button('reset');
-                                if (msg.status) {
-                                    $('#' + settings.selector.form).modal('hide');
-                                    location.reload();
-                                } else {
-                                    var obj = msg.messages;
-                                    $.each(obj, function(index, value) {
-                                        var selector = $(':input[name=' + index + ']');
-                                        selector.after('<p class="help-block">' + value + '</p>');
-                                        selector.parent().parent('div.form-group').addClass('has-error');
-                                    });
-                                }
-                                c = str;
-                            }, 1000);
-                        },
-                        error: function(xhr) {
-                            setTimeout(function() {
-                                settings.selector.button.update.button('reset');
-                            }, 1000);
-                        }
-                    })
-                }
-            });
-
-        });
-
-        function setTable(me) {
-            var columns = [];
-            for (var i = 0; i < settings.numberColumn; i++) {
-                if (i === (settings.numberColumn - 1))
-                    columns[i] = { "orderable": false };
-                else
-                    columns[i] = null;
-            }
-            var op = {
-                "language": {
-                    "lengthMenu": "Hiển thị _MENU_ danh mục",
-                    "zeroRecords": "Không tìm thấy",
-                    "info": "Hiển thị _PAGE_/_PAGES_",
-                    "infoEmpty": "Không thìm thấy",
-                    "infoFiltered": "(Tìm kiếm trong _MAX_ danh mục)",
-                    "paginate": {
-                        "first": "Trang đầu",
-                        "last": "Trang cuối",
-                        "next": "<i class='fa fa-angle-double-right'></i>",
-                        "previous": "<i class='fa fa-angle-double-left'></i>"
-                    },
+            var defaults = {
+                numberColumn: 0,
+                language: 'vi',
+                orderColum: 0,
+                type: 'asc',
+                colums: {},
+                title: {},
+                url: null,
+                selector: {
+                    form: null,
+                    button: {
+                        update: null,
+                        reset: null
+                    }
                 },
-                "columns": columns,
-                "order": [
-                    [settings.orderColum, settings.type]
-                ]
+                setTable: function(me) {},
+                beforePopupForm: function(obj) {}
             }
-            return me.DataTable(op);
-        }
 
-        function beforePopupForm(obj) {
-            var selector = settings.colums;
-            $('#' + settings.title.id).html('Cập nhật danh mục - ' + '<i style="color: red">' + obj[settings.title.indexText] + '</i>')
-            $.each(selector, function(i, value) {
-                var sel = $('#' + settings.selector.form).find(value.ftype + '[name=' + i + ']');
-                if (i == 'id')
-                    $('#' + settings.selector.form).find('form').attr('action', settings.url + obj[value.index]);
-                if (value.type == 'text')
-                    sel.val(obj[value.index]);
-                if (value.type == 'select')
-                    obj[value.index] == '' ? sel.val(0) : sel.val(obj[value.index]);
-                if (value.type == 'checkbox')
-                    obj[value.index] == 'Hiển thị' ? sel.prop("checked", true) : sel.prop("checked", false);
+            var settings = $.extend(defaults, options);
+
+            var c;
+
+            return this.each(function() {
+                var me = $(this);
+
+                var table = setTable(me);
+
+                $('select[name=dataTable_length]').select2({
+                    minimumResultsForSearch: Infinity,
+                    width: 'auto'
+                });
+
+                me.find('button.btn-primary').click(function() {
+                    var row = $(this).parents('tr')[0];
+                    var obj = table.row(row).data();
+                    beforePopupForm(obj);
+                    $('#' + settings.selector.form).modal('show');
+                });
+
+                settings.selector.button.reset.click(function() {
+                    $('#' + settings.selector.form).handleForm({ reset: true });
+                });
+
+                settings.selector.button.update.click(function() {
+                    var str = $('#' + settings.selector.form).find('form').serialize();
+                    var url = $('#' + settings.selector.form).find('form').attr('action');
+                    if (c != str) {
+                        settings.selector.button.update.button('loading');
+                        $.ajax({
+                            url: url,
+                            data: str,
+                            type: 'POST',
+                            dataType: 'json',
+                            success: function(msg) {
+                                setTimeout(function() {
+                                    settings.selector.button.update.button('reset');
+                                    if (msg.status) {
+                                        $('#' + settings.selector.form).modal('hide');
+                                        location.reload();
+                                    } else {
+                                        var obj = msg.messages;
+                                        $.each(obj, function(index, value) {
+                                            var selector = $(':input[name=' + index + ']');
+                                            selector.after('<p class="help-block">' + value + '</p>');
+                                            selector.parent().parent('div.form-group').addClass('has-error');
+                                        });
+                                    }
+                                    c = str;
+                                }, 1000);
+                            },
+                            error: function(xhr) {
+                                setTimeout(function() {
+                                    settings.selector.button.update.button('reset');
+                                }, 1000);
+                            }
+                        })
+                    }
+                });
+
             });
-            c = $('#' + settings.selector.form).find('form').serialize();
-        }
-    }
 
-    /**
-     * Type: info, success, warning, danger, reminder, todo
-     */
+            function setTable(me) {
+                var columns = [];
+                for (var i = 0; i < settings.numberColumn; i++) {
+                    if (i === (settings.numberColumn - 1))
+                        columns[i] = { "orderable": false };
+                    else
+                        columns[i] = null;
+                }
+                var op = {
+                    language: {
+                        zeroRecords: "Không tìm thấy",
+                        infoEmpty: "Không thìm thấy",
+                        infoFiltered: "(Tìm kiếm trong _MAX_ danh mục)",
+                        paginate: {
+                            "first": "Trang đầu",
+                            "last": "Trang cuối",
+                            "next": "<i class='fa fa-angle-double-right'></i>",
+                            "previous": "<i class='fa fa-angle-double-left'></i>"
+                        },
+                        search: '<span>Tìm kiếm:</span> _INPUT_',
+                        lengthMenu: '<span>Hiển thị:</span> _MENU_',
+                    },
+                    "columns": columns,
+                    "order": [
+                        [settings.orderColum, settings.type]
+                    ],
+                    bInfo: false,
+                    dom: '<"datatable-header"fl><"datatable-scroll"t><"datatable-footer"ip>',
+
+                }
+
+                return me.DataTable(op);
+            }
+
+            function beforePopupForm(obj) {
+                var selector = settings.colums;
+                $('#' + settings.title.id).html('Cập nhật danh mục - ' + '<i style="color: red">' + obj[settings.title.indexText] + '</i>')
+                $.each(selector, function(i, value) {
+                    var sel = $('#' + settings.selector.form).find(value.ftype + '[name=' + i + ']');
+                    if (i == 'id')
+                        $('#' + settings.selector.form).find('form').attr('action', settings.url + obj[value.index]);
+                    if (value.type == 'text')
+                        sel.val(obj[value.index]);
+                    if (value.type == 'select')
+                        obj[value.index] == '' ? sel.val(0) : sel.val(obj[value.index]);
+                    if (value.type == 'checkbox')
+                        obj[value.index] == 'Hiển thị' ? sel.prop("checked", true) : sel.prop("checked", false);
+                });
+                c = $('#' + settings.selector.form).find('form').serialize();
+            }
+        }
+        /**
+         * Type: info, success, warning, danger, reminder, todo
+         */
     $.notifier = function(type, title, content, duration) {
         var counter;
         var method = {
@@ -215,5 +223,4 @@
         };
         return method.init(type, title, content, duration);
     };
-
 }(jQuery));

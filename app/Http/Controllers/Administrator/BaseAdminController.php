@@ -9,6 +9,6 @@ use View;
 class BaseAdminController extends Controller
 {
     public function index() {
-        return View::make('administrator.dashboard');
+        return View::make('page_admin.index');
     } 
 }

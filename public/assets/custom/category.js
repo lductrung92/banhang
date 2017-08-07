@@ -3,6 +3,11 @@ $(document).ready(function() {
     var str = $('form#formCreateCate select[name=selCate]').html();
     $('#formUpdateCate select[name=selCate]').append(str);
 
+    var elems = document.querySelectorAll('.switchery');
+    for (var i = 0; i < elems.length; i++) {
+        var switchery = new Switchery(elems[i], { color: 'rgb(100, 189, 99)' });
+    }
+
     $('#dataTable').table({
         numberColumn: 8,
         url: 'administrator/category/update/',

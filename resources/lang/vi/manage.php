@@ -3,7 +3,7 @@
 return [
 
     'dashboard' => [
-        'icon' => 'fa fa-dashboard', 
+        'icon' => 'fa fa-tachometer', 
         'title' => 'Bảng điều khiển'
     ],
     'category' => [

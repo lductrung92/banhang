@@ -20,7 +20,7 @@ class FileManagerController extends LfmController
     }
 
     public function reload() {
-        return view('administrator.product.imageupload');
+        return view('page_admin.product.imageupload');
     }
 
     public function postUpload()

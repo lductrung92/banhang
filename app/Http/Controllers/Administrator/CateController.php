@@ -21,7 +21,7 @@ class CateController extends Controller
                     ->select('id', 'pid', 'name')
                     ->get();
         $catetbs = Category::all();
-        return View::make('administrator.category.index', compact(['cateops', 'catels', 'catetbs']));
+        return View::make('page_admin.category.index', compact(['cateops', 'catels', 'catetbs']));
     }
 
     public function postInsert(CateRequest $request) {
