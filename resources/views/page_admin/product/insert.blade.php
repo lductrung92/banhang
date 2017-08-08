@@ -1,6 +1,6 @@
 @extends('page_admin.base.base')
 
-@section('title', 'Quản lý san phẩm')
+@section('title', 'Quản lý sản phẩm')
 
 @section('global_css')
     <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,100,500,700,900" rel="stylesheet" type="text/css">
@@ -24,6 +24,7 @@
 @section('core_js')
     <script type="text/javascript" src="assets/plugin/assets/js/plugins/loaders/pace.min.js"></script>
     <script type="text/javascript" src="assets/plugin/assets/js/core/libraries/jquery.min.js"></script>
+    <script type="text/javascript" src="assets/session/jquery.session.js"></script>
     <script type="text/javascript" src="assets/plugin/assets/js/core/libraries/bootstrap.min.js"></script>
     <script type="text/javascript" src="assets/plugin/assets/js/plugins/loaders/blockui.min.js"></script>
     <script type="text/javascript" src="assets/plugin/assets/js/plugins/forms/styling/uniform.min.js"></script>
@@ -46,7 +47,6 @@
     <script>
         var cache_files = [];
     </script>
-    <script src="assets/sortable/jquery-sortable-lists.js"></script>
     <script src="assets/custom/handle-form.js"></script>
     <script src="assets/custom/product-insert.js"></script>
 @endsection
@@ -57,8 +57,14 @@
         <div class="page-header page-header-default">
             <div class="page-header-content">
                 <div class="page-title">
-                    <h4><i class="icon-arrow-left52 position-left"></i> <span class="text-semibold">Sản phẩm</span> - thêm mới</h4>
+                    <h4><i class="icon-arrow-left52 position-left"></i> <span class="text-semibold">Sản phẩm</span> - {{ trans('manage.btn.create') }}</h4>
                 </div>
+
+                <div class="heading-elements">
+                    <div class="heading-btn-group">
+                        <a href="{{ route('pageProductIndex') }}" type="button" class="btn btn-success"><i class=" icon-list2 position-left"></i> {{ trans('manage.btn.list') }}</a>
+                    </div>
+                </div> 
             </div>
         </div>
         <!-- /page header -->
@@ -129,9 +135,22 @@
                                 <div class="form-group">
                                     <label for="text" class="col-lg-2 control-label">Giá</label>
                                     <div class="col-lg-9">
-                                            <input type="text" class="form-control" name="txtPrice" placeholder="Nhập giá sản phẩm" data-mask="VNĐ">
+                                        <input type="text" class="form-control" name="txtPrice" placeholder="Nhập giá sản phẩm" data-mask="VNĐ">
                                     </div>
                                 </div>
+
+                                <div class="form-group">
+                                    <label for="text" class="col-lg-2 control-label"></label>
+                                    <div class="col-lg-9">
+                                        <div class="checkbox checkbox-switchery switchery-xs">
+                                            <label>
+                                                <input type="checkbox" name="checkisNew" class="switchery">
+                                                Nổi bật
+                                            </label>
+										</div>
+                                    </div>
+                                </div>
+
                             </form>
                         </div>
                         <div class="col-lg-2"></div>
@@ -159,8 +178,8 @@
                 <div class="panel-body" style="padding-top: 0px">
                     <div class="col-lg-12">
                         <div class="text-right" style="margin-bottom: 20px;">
-                            <input type="submit" class="btn btn-primary" id="btnCreateProduct" value="Thêm mới">
-                            <input type="button" class="btn btn-warning" id="btnResetCreate" value="Làm mới">
+                            <input type="submit" class="btn btn-primary" id="btnCreateProduct" value="{{ trans('manage.btn.create') }}">
+                            <input type="button" class="btn btn-warning" id="btnResetCreate" value="{{ trans('manage.btn.refresh') }}">
                         </div>
                     </div> 
                 </div> 
@@ -177,9 +196,16 @@
     </div>
     @if(Session::has('messages'))
         <script>
-        window.onload = function() {
-            $.notifier('{{ Session::has('type') ? Session::get('type') : 'success' }}','Thông báo','{{ Session::get('messages') }}','1500');
-        };
+            window.onload = function() {
+                $.notifier('{{ Session::has('type') ? Session::get('type') : 'success' }}','Thông báo','{{ Session::get('messages') }}','1500');
+            };
         </script>
     @endif
+    <script>
+        window.onload = function() {
+            if($.session.get('messages'))
+                $.notifier('success', 'Thông báo', $.session.get('messages'),'1500');
+                $.session.clear();
+        };
+    </script>
 @endsection

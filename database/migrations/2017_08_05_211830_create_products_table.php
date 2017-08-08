@@ -20,7 +20,7 @@ class CreateProductsTable extends Migration
             $table->string('name')->unique();
             $table->string('title')->nullable();
             $table->string('slug');
-            $table->integer('price');
+            $table->string('price');
             $table->string('options')->nullable();
             $table->longText('description')->nullable();
             $table->tinyInteger('status');

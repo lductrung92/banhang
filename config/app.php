@@ -76,8 +76,12 @@ return [
     | to any of the locales which will be supported by the application.
     |
     */
+    'support_locale' => [
+        'vn' => 'Việt Nam',
+        'en' => 'English'
+    ],
 
-    'locale' => 'vi',
+    'locale' => 'vn',
 
     /*
     |--------------------------------------------------------------------------
@@ -90,7 +94,7 @@ return [
     |
     */
 
-    'fallback_locale' => 'vi',
+    'fallback_locale' => 'vn',
 
     /*
     |--------------------------------------------------------------------------

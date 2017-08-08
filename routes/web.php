@@ -13,9 +13,12 @@
 Route::get('/', function () {
     return view('welcome');
 });
+Route::get('/login', ['as' => 'getLoginAdmin', 'uses' => 'Administrator\AuthController@index']);
 
-Route::group(['prefix' => 'administrator'], function() {
-    Route::get('/login', ['as' => 'getLoginAdmin', 'uses' => 'Administrator\AuthController@index']);
+Route::group(['prefix' => 'administrator', 'middleware' => 'language'], function() {
+
+    Route::get('chooser/language/{lang}', ['as' => 'chooserLanguage', 'uses' => 'Administrator\BaseAdminController@chooser']);
+    
     Route::get('/dashboard', ['as' => 'pageIndexAdmin', 'uses' => 'Administrator\BaseAdminController@index']);
 
     Route::group(['prefix' => 'category'], function() {
@@ -32,6 +35,7 @@ Route::group(['prefix' => 'administrator'], function() {
         Route::get('/', ['as' => 'pageProductIndex', 'uses' => 'Administrator\ProductController@index']);
         Route::get('/insert', ['as' => 'getInsertProduct', 'uses' => 'Administrator\ProductController@showFormInsert']);
         Route::post('/insert', ['as' => 'postInsertProduct', 'uses' => 'Administrator\ProductController@insert']);
+        Route::get('/viewImages/{id}', ['as' => 'viewImages', 'uses' => 'Administrator\ProductController@viewImages']);
     });
 
     Route::group(['prefix' => 'filemanager'], function () {

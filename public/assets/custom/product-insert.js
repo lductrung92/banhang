@@ -7,8 +7,10 @@ $(function() {
     };
     var ckeditor = CKEDITOR.replace('desProduct', options);
 
-    var primary = document.querySelector('.switchery');
-    var switchery = new Switchery(primary, { color: 'rgb(100, 189, 99)' });
+    var elems = document.querySelectorAll('.switchery');
+    for (var i = 0; i < elems.length; i++) {
+        var switchery = new Switchery(elems[i], { color: 'rgb(100, 189, 99)' });
+    }
 
     $('#imageUpload').load('administrator/upload/fileImage/reload');
 
@@ -23,19 +25,26 @@ $(function() {
 
         var data = formData + '&txtDesCate=' + ckeditor.getData() + '&images=' + JSON.stringify(images);
 
+        console.log(data);
+
         $.ajax({
             url: 'administrator/product/insert',
             data: data,
             type: 'POST',
             dataType: 'json',
             success: function(msg) {
-                if (msg.status) {
+                if (msg.status && msg.validate) {
+                    $.session.set("messages", msg.messages);
+                    location.reload();
+                } else if (msg.status && !msg.validate) {
 
                 } else {
                     $.notifier('danger', 'Thông báo', 'Xảy ra lỗi!', 1500);
                     var obj = msg.messages;
-                    $('div.form-group').removeClass('has-error');
-                    $('div.form-group .help-block').remove();
+
+                    $('div.has-error').find('p.help-block').remove();
+                    $('div.has-error').removeClass('has-error');
+
                     $.each(obj, function(index, value) {
                         var selector = $(':input[name=' + index + ']');
                         selector.after('<p class="help-block">' + value + '</p>');

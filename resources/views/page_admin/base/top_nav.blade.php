@@ -92,21 +92,20 @@
         </ul>
 
         <p class="navbar-text"><span class="label bg-success">Online</span></p>
-
         <ul class="nav navbar-nav navbar-right">
             <li class="dropdown language-switch">
-                <a class="dropdown-toggle" data-toggle="dropdown">
-                    <img src="assets/plugin/assets/images/flags/gb.png" class="position-left" alt="">
-                    English
+                <a href="{{ route('chooserLanguage', Session::get('locale')) }}" class="dropdown-toggle" data-toggle="dropdown">
+                    <img src="assets/plugin/assets/images/flags/{{ Session::get('locale') }}.png" class="position-left" alt="">
+                    {{ Config::get('app.support_locale')[Session::get('locale')] }}
                     <span class="caret"></span>
                 </a>
 
                 <ul class="dropdown-menu">
-                    <li><a class="deutsch"><img src="assets/plugin/assets/images/flags/de.png" alt=""> Deutsch</a></li>
-                    <li><a class="ukrainian"><img src="assets/plugin/assets/images/flags/ua.png" alt=""> Українська</a></li>
-                    <li><a class="english"><img src="assets/plugin/assets/images/flags/gb.png" alt=""> English</a></li>
-                    <li><a class="espana"><img src="assets/plugin/assets/images/flags/es.png" alt=""> España</a></li>
-                    <li><a class="russian"><img src="assets/plugin/assets/images/flags/ru.png" alt=""> Русский</a></li>
+                    @foreach(Config::get('app.support_locale') as $key => $item)
+                        @if($key !== Session::get('locale'))
+                            <li><a href="{{ route('chooserLanguage', $key) }}" class="deutsch"><img src="assets/plugin/assets/images/flags/{{ $key }}.png" alt=""> {{ $item }}</a></li>
+                        @endif
+                    @endforeach
                 </ul>
             </li>
 

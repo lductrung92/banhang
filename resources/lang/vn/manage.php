@@ -18,6 +18,14 @@ return [
             'sale' => ['title' => 'Khuyến mãi', 'icon' => 'fa fa-empire'],
             'warehouse' => ['title' => 'Tồn kho', 'icon' => 'fa fa-bank']
         ]
+    ],
+    'btn' => [
+        'create' => 'Thêm mới',
+        'update' => 'Cập nhật',
+        'cancel' => 'Hủy',
+        'refresh' => 'Làm mới',
+        'save' => 'Lưu',
+        'list' => 'Danh sách'
     ]
 
 ];

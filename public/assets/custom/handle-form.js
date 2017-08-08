@@ -27,6 +27,7 @@
                 language: 'vi',
                 orderColum: 0,
                 type: 'asc',
+                /** popup */
                 colums: {},
                 title: {},
                 url: null,
@@ -37,6 +38,8 @@
                         reset: null
                     }
                 },
+                /** popup */
+                popup: true,
                 setTable: function(me) {},
                 beforePopupForm: function(obj) {}
             }
@@ -50,59 +53,63 @@
 
                 var table = setTable(me);
 
+
                 $('select[name=dataTable_length]').select2({
                     minimumResultsForSearch: Infinity,
                     width: 'auto'
                 });
 
-                me.find('button.btn-primary').click(function() {
-                    var row = $(this).parents('tr')[0];
-                    var obj = table.row(row).data();
-                    beforePopupForm(obj);
-                    $('#' + settings.selector.form).modal('show');
-                });
 
-                settings.selector.button.reset.click(function() {
-                    $('#' + settings.selector.form).handleForm({ reset: true });
-                });
+                if (settings.popup) {
+                    me.find('button.btn-primary').click(function() {
+                        var row = $(this).parents('tr')[0];
+                        var obj = table.row(row).data();
+                        beforePopupForm(obj);
+                        $('#' + settings.selector.form).modal('show');
+                    });
 
-                settings.selector.button.update.click(function() {
-                    var str = $('#' + settings.selector.form).find('form').serialize();
-                    var url = $('#' + settings.selector.form).find('form').attr('action');
-                    if (c != str) {
-                        settings.selector.button.update.button('loading');
-                        $.ajax({
-                            url: url,
-                            data: str,
-                            type: 'POST',
-                            dataType: 'json',
-                            success: function(msg) {
-                                setTimeout(function() {
-                                    settings.selector.button.update.button('reset');
-                                    if (msg.status) {
-                                        $('#' + settings.selector.form).modal('hide');
-                                        location.reload();
-                                    } else {
-                                        var obj = msg.messages;
-                                        $('div.form-group').removeClass('has-error');
-                                        $('div.form-group .help-block').remove();
-                                        $.each(obj, function(index, value) {
-                                            var selector = $(':input[name=' + index + ']');
-                                            selector.after('<p class="help-block">' + value + '</p>');
-                                            selector.parent().parent('div.form-group').addClass('has-error');
-                                        });
-                                    }
-                                    c = str;
-                                }, 1000);
-                            },
-                            error: function(xhr) {
-                                setTimeout(function() {
-                                    settings.selector.button.update.button('reset');
-                                }, 1000);
-                            }
-                        });
-                    }
-                });
+                    settings.selector.button.reset.click(function() {
+                        $('#' + settings.selector.form).handleForm({ reset: true });
+                    });
+
+                    settings.selector.button.update.click(function() {
+                        var str = $('#' + settings.selector.form).find('form').serialize();
+                        var url = $('#' + settings.selector.form).find('form').attr('action');
+                        if (c != str) {
+                            settings.selector.button.update.button('loading');
+                            $.ajax({
+                                url: url,
+                                data: str,
+                                type: 'POST',
+                                dataType: 'json',
+                                success: function(msg) {
+                                    setTimeout(function() {
+                                        settings.selector.button.update.button('reset');
+                                        if (msg.status) {
+                                            $('#' + settings.selector.form).modal('hide');
+                                            location.reload();
+                                        } else {
+                                            var obj = msg.messages;
+                                            $('div.has-error').find('p.help-block').remove();
+                                            $('div.has-error').removeClass('has-error');
+                                            $.each(obj, function(index, value) {
+                                                var selector = $(':input[name=' + index + ']');
+                                                selector.after('<p class="help-block">' + value + '</p>');
+                                                selector.parent().parent('div.form-group').addClass('has-error');
+                                            });
+                                        }
+                                        c = str;
+                                    }, 1000);
+                                },
+                                error: function(xhr) {
+                                    setTimeout(function() {
+                                        settings.selector.button.update.button('reset');
+                                    }, 1000);
+                                }
+                            });
+                        }
+                    });
+                }
 
             });
 

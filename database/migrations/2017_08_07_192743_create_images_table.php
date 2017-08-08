@@ -17,7 +17,7 @@ class CreateImagesTable extends Migration
             $table->increments('id');
             $table->integer('proid')->unsigned();
             $table->string('name')->unique();
-            $table->tinyInteger('isfirst');
+            $table->tinyInteger('isfirst')->nullable();
             $table->foreign('proid')->references('id')->on('products')->onDelete('cascade');
             $table->timestamps();
         });

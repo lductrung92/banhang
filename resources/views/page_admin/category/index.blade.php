@@ -68,7 +68,7 @@
 
                 <!-- <div class="heading-elements">
                     <div class="heading-btn-group">
-                        <a href="administrator/product/create" type="button" class="btn btn-success"><i class="icon-add position-left"></i> Thêm mới</a>
+                        <a href="administrator/product/create" type="button" class="btn btn-success"><i class="icon-add position-left"></i> {{ trans('manage.btn.create') }}</a>
                         <button type="button" class="btn btn-primary"><i class=" icon-file-excel position-left"></i> Xuất Excel</button>
                     </div>
                 </div> -->
@@ -93,7 +93,7 @@
                     <div class="row">
                         <div class="col-md-6">
                             <fieldset>
-                                <legend class="text-semibold"><i class="icon-pen"></i>&nbsp;&nbsp;Thêm mới</legend>
+                                <legend class="text-semibold"><i class="icon-pen"></i>&nbsp;&nbsp;{{ trans('manage.btn.create') }}</legend>
                                 <form id="formCreateCate" action="{{ route('postInsertCate') }}" method="post">
                                     <input type='hidden' name='_token' value="{{ csrf_token() }}">
                                     <div class="form-group">
@@ -130,8 +130,8 @@
                                     </div>
                                     
                                     <div class="text-right">
-                                        <input type="submit" class="btn btn-primary" value="Thêm mới">
-                                        <input type="button" class="btn btn-warning" id="btnResetCreate" value="Làm mới">
+                                        <input type="submit" class="btn btn-primary" value="{{ trans('manage.btn.create') }}">
+                                        <input type="button" class="btn btn-warning" id="btnResetCreate" value="{{ trans('manage.btn.refresh') }}">
                                     </div>
                                 </form>
                             </fieldset>
@@ -144,8 +144,8 @@
                                     {{ showListCategories($catels) }}
                                 </ul>
                                 <div class="text-right">
-                                    <button class="btn btn-primary" id="updateSortList" data-original-title="" title="">Lưu</button>
-                                    <button class="btn btn-danger" data-original-title="" title="">Hủy</button>
+                                    <button class="btn btn-primary" id="updateSortList" data-original-title="" title="">{{ trans('manage.btn.save') }}</button>
+                                    <button class="btn btn-danger" data-original-title="" title="">{{ trans('manage.btn.cancel') }}</button>
                                 </div>
                             </fieldset>
                         </div>
@@ -256,8 +256,8 @@
                                 </div>
                                 
                                 <div class="modal-footer">
-                                    <button type="button" class="btn btn-primary" data-loading-text="<i class='fa fa-refresh fa-spin'></i> Watting" id="btnSubmitUpdate">Cập nhật</button>
-                                    <input type="button" class="btn btn-warning" value="Làm mới" id="btnResetUpdate">
+                                    <button type="button" class="btn btn-primary" data-loading-text="<i class='fa fa-refresh fa-spin'></i> Watting" id="btnSubmitUpdate">{{ trans('manage.btn.update') }}</button>
+                                    <input type="button" class="btn btn-warning" value="{{ trans('manage.btn.refresh') }}" id="btnResetUpdate">
                                     <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
                                 </div>
                             </form>
