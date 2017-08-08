@@ -117,7 +117,7 @@ class ProductController extends Controller
                 ->select('proid', 'name')
                 ->get();
 
-        return View::make('page_admin.product.view_image', compact('images'));
+        return View::make('page_admin.product.view_image', compact('images', 'id'));
     }
 
 }

@@ -222,6 +222,7 @@
                 setTimeout(function() {
                     $('#' + currentEl).remove();
                 }, 600);
+                $('#notifier-container').remove();
             },
             _createElement: function(el, attrs) {
                 var element = document.createElement(el);

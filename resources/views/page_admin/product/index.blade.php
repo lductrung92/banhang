@@ -122,7 +122,21 @@
     @endif
     <script>
         function viewImages(id) {
-            $('td#viewImages-' + id).load('administrator/product/viewImages/' + id);
+            if($('td#viewImages-' + id).find('a:nth-child(2)').length) {
+                $('td#viewImages-' + id).find('a:nth-child(2)').trigger('click');
+            } else {
+                $('td#viewImages-' + id).load('administrator/product/viewImages/' + id, function() {
+                    if($(this).find('a:nth-child(2)').length) 
+                    {
+                        $(this).find('a:nth-child(2)').trigger('click');
+                    }
+                    else 
+                    {
+                        $.notifier('warning', 'Thông báo', 'Sản phẩm này không có ảnh', 1500);
+                    }
+                    
+                });
+            }
         }    
     </script>
 @endsection
