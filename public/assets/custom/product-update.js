@@ -12,21 +12,26 @@ $(function() {
         var switchery = new Switchery(elems[i], { color: 'rgb(100, 189, 99)' });
     }
 
-    $('#imageUpload').load('administrator/upload/fileImage/reload');
-
-    $('#btnCreateProduct').click(function() {
-        var formData = $('form#formCreateProduct').serialize();
+    $('#btnUpdateProduct').click(function() {
+        var formData = $('form#formUpdateProduct').serialize();
 
         var images = [];
+        var serimages = [];
 
         for (var i = 0; i < cache_files.length; i++) {
             images.push(cache_files[i].name);
         }
 
-        var data = formData + '&txtDesCate=' + ckeditor.getData() + '&images=' + JSON.stringify(images);
+        for (var i = 0; i < server_files.length; i++) {
+            serimages.push(server_files[i].name);
+        }
+
+        var data = formData + '&txtDesCate=' + ckeditor.getData() + '&images=' + JSON.stringify(images) + '&serimages=' + JSON.stringify(serimages);
+
+        console.log(data);
 
         $.ajax({
-            url: 'administrator/product/insert',
+            url: 'administrator/product/update/' + id_update,
             data: data,
             type: 'POST',
             dataType: 'json',
@@ -56,4 +61,5 @@ $(function() {
         });
 
     });
+
 });

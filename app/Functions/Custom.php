@@ -25,6 +25,7 @@ function showOptionCategories($categories, $parent_id = 0, $char = '')
     }
 }
 
+
 function showListCategories($categories, $parent_id = 0, $char = '')
 {
     $cate_child = array();
@@ -54,10 +55,13 @@ function showListCategories($categories, $parent_id = 0, $char = '')
     
 }
 
-function showOptionCateChilds($categories) 
+function showOptionCateChilds($categories, $idChecked = null) 
 {
     for($i = 0; $i < count($categories); $i++){
-        echo '<option value="'.$categories[$i]['id'].'">';
+        if($categories[$i]['id'] === $idChecked)
+            echo '<option value="' . $categories[$i]['id'] . '" selected>';
+        else
+            echo '<option value="' . $categories[$i]['id'] . '">';
         echo htmlspecialchars($categories[$i]['name']);
         echo '</option>'; 
     }

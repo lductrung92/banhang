@@ -8,6 +8,7 @@ use Unisharp\Laravelfilemanager\controllers\LfmController;
 use App\Http\Controllers\Administrator\ImageRepository;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Input;
+use App\Image;
 
 class FileManagerController extends LfmController
 {
@@ -21,6 +22,10 @@ class FileManagerController extends LfmController
 
     public function reload() {
         return view('page_admin.product.imageupload');
+    }
+
+    public function reloadUpdate() {
+        return view('page_admin.product.imageupload_update');
     }
 
     public function postUpload()
@@ -57,20 +62,7 @@ class FileManagerController extends LfmController
 
     public function getServerImages()
     {
-        $images = Image::get(['original_name', 'filename']);
-
-        $imageAnswer = [];
-
-        foreach ($images as $image) {
-            $imageAnswer[] = [
-                'original' => $image->original_name,
-                'server' => $image->filename,
-                'size' => File::size(public_path('uploads/products/' . $image->filename))
-            ];
-        }
-
-        return response()->json([
-            'images' => $imageAnswer
-        ]);
+        
+        
     }
 }

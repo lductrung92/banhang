@@ -80,25 +80,7 @@
                             <th></th>
                         </tr>
                     </thead>
-                    <tbody>
-                        @foreach($products as $product)
-                            <tr>
-                                <td>{{ $product->name }}</td>
-                                <td>{{ $product->title }}</td>
-                                <td>{{ $product->slug }}</td>
-                                <td>{{ $product->price }}</td>
-                                <td>{{ $product->status === 1 ? 'Hiển thị' : 'Không hiển thị' }}</td>
-                                <td>{{ $product->isnew === 1 ? 'Nổi bật' : '' }}</td>
-                                <td id="viewImages-{{ $product->id }}">
-                                    <a href="javascript:;" onclick='viewImages({{ $product->id }})'> Xem ảnh</a>
-                                </td>
-                                <td align="center">
-                                    <a style="font-size: 7px; padding: 5px 6px;" href='administrator/product/update/{{ $product->id }}' class="btn btn-primary btn-xs" ><span style="font-size: 10px;" class="glyphicon glyphicon-pencil"></span></a>
-                                    <a style="font-size: 7px; padding: 5px 6px;" href='administrator/product/delete/{{ $product->id }}' class="btn btn-danger btn-xs"><span style="font-size: 10px;" class="glyphicon glyphicon-trash"></span></a>
-                                </td>
-                            </tr>
-                        @endforeach
-                    </tbody>
+                    
                 </table>
             </div>
              <!-- List-->
@@ -122,10 +104,10 @@
     @endif
     <script>
         function viewImages(id) {
-            if($('td#viewImages-' + id).find('a:nth-child(2)').length) {
-                $('td#viewImages-' + id).find('a:nth-child(2)').trigger('click');
+            if($('td div#viewImages-' + id).find('a:nth-child(2)').length) {
+                $('td div#viewImages-' + id).find('a:nth-child(2)').trigger('click');
             } else {
-                $('td#viewImages-' + id).load('administrator/product/viewImages/' + id, function() {
+                $('td div#viewImages-' + id).load('administrator/product/viewImages/' + id, function() {
                     if($(this).find('a:nth-child(2)').length) 
                     {
                         $(this).find('a:nth-child(2)').trigger('click');

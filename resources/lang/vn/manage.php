@@ -16,7 +16,7 @@ return [
         'childs' => [
             'list' => ['title' => 'Danh sách', 'icon' => 'fa fa-table'],
             'sale' => ['title' => 'Khuyến mãi', 'icon' => 'fa fa-empire'],
-            'warehouse' => ['title' => 'Tồn kho', 'icon' => 'fa fa-bank']
+            'warehouse' => ['title' => 'Kho hàng', 'icon' => 'fa fa-bank']
         ]
     ],
     'btn' => [

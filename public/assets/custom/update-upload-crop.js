@@ -23,9 +23,129 @@ $(function() {
         previewTemplate: document.querySelector('#preview-template').innerHTML,
         init: function() {
 
-
             var myDropzone = this;
             $('.dz-message').removeClass('dz-default');
+
+            $.get('administrator/product/view/images/' + id_update, function(data) {
+                $.each(data.images, function(key, value) {
+                    var file = { name: value.name, size: value.size };
+                    myDropzone.options.addedfile.call(myDropzone, file);
+                    myDropzone.options.thumbnail.call(myDropzone, file, 'uploads/products/' + value.name + "?" + Math.floor(Math.random() * 1000000000));
+                    server_files.push({
+                        'name': value.name
+                    });
+                });
+                // tạo event khi load lai
+
+                $('.dz-preview a.sn-edit-img-btn').click(function(e) {
+                    var b = $(this).parent().find('img').attr("src");
+                    var s = $(this);
+                    var imgAfter = $(this).parent().find('img');
+                    $(this).fancybox({
+                        closeClickOutside: false,
+                        margin: [44, 0],
+                        afterLoad: function() {
+                            $("#submit_update_size_image").click(function() {
+                                var jsonData = [{
+                                    x: $('#x1').val(),
+                                    y: $('#y1').val(),
+                                    w: $('#w').val(),
+                                    h: $('#h').val(),
+                                    name: oImage.attr("src").split('?')[0]
+                                }];
+                                $.ajax({
+                                    type: 'get',
+                                    url: 'administrator/upload/fileImage/updateSize',
+                                    data: { data: JSON.stringify(jsonData) },
+                                    success: function(data) {
+                                        imgAfter.parent().block({
+                                            message: '<i class="icon-spinner9 spinner"></i>',
+                                            overlayCSS: {
+                                                backgroundColor: '#fff',
+                                                opacity: 0.8,
+                                                cursor: 'wait',
+                                                'box-shadow': '0 0 0 1px #ddd'
+                                            },
+                                            css: {
+                                                border: 0,
+                                                padding: 0,
+                                                backgroundColor: 'none'
+                                            }
+                                        });
+                                        setTimeout(function() {
+                                            imgAfter.attr("src", b + "?" + Math.floor(Math.random() * 1000000000));
+                                            imgAfter.parent().unblock();
+                                        }, 1000);
+                                        parent.$.fancybox.close();
+                                    }
+                                })
+                            });
+                        },
+                        beforeLoad: function() {
+                            oImage = $('#sn-edit-img-btn img');
+                            var img = new Image();
+                            oImage.attr('src', b + "?" + Math.floor(Math.random() * 1000000000)).load(function() {
+                                if (this.naturalWidth > 712 && this.naturalWidth < 1600) {
+                                    $(this).css({
+                                        'width': this.naturalWidth / 2,
+                                        'height': this.naturalHeight / 2
+                                    });
+                                    t = 2;
+                                } else if (this.naturalWidth >= 1600 && this.naturalWidth < 2500) {
+                                    $(this).css({
+                                        'width': (this.naturalWidth / 3),
+                                        'height': this.naturalHeight / 3
+                                    });
+                                    t = 3;
+                                } else if (this.naturalWidth >= 2500) {
+                                    $(this).css({
+                                        'width': (this.naturalWidth / 4),
+                                        'height': this.naturalHeight / 4
+                                    });
+                                    t = 4;
+                                } else {
+                                    t = 1;
+                                    $(this).css({ 'width': 'auto', 'height': 'auto' });
+                                }
+
+                                if (typeof jcrop_api != 'undefined') {
+                                    jcrop_api.destroy();
+                                    jcrop_api = null;
+                                    $(this).width(oImage.naturalWidth);
+                                    $(this).height(oImage.naturalHeight);
+                                }
+
+                                $(this).Jcrop({
+                                    bgFade: true, // use fade effect
+                                    minSize: [80, 160],
+                                    aspectRatio: 200 / 400, //(w,h)
+                                    bgOpacity: .3, // fade opacity
+                                    onChange: showCoords,
+                                    onSelect: showCoords
+                                }, function() {
+                                    // use the Jcrop API to get the real image size
+                                    var bounds = this.getBounds();
+                                    boundx = bounds[0];
+                                    boundy = bounds[1];
+
+                                    // Store the Jcrop API in the jcrop_api variable
+                                    jcrop_api = this;
+                                    jcrop_api.setSelect([0, 0, 200, 400]);
+                                });
+                            });
+
+
+                        },
+                        afterClose: function() {
+                            jcrop_api.destroy();
+                            $("#submit_update_size_image").unbind("click");
+                        }
+                    });
+
+                    e.preventDefault();
+                });
+
+            });
 
             this.on("sending", function(file) {
                 $("#dropzone_multiple").block({
@@ -57,7 +177,6 @@ $(function() {
                             var obj = $.parseJSON(file.xhr.response);
                             myDropzone.options.thumbnail.call(myDropzone, file, 'uploads/caches/' + obj["filename"] + "?" + Math.floor(Math.random() * 1000000000));
                             cache_files.push({
-                                'file': file,
                                 'name': obj["filename"]
                             });
 
@@ -69,8 +188,6 @@ $(function() {
                                     closeClickOutside: false,
                                     margin: [44, 0],
                                     afterLoad: function() {
-                                        $(".fancybox-controls").append('<iao-alert-box position="top-right" style="z-index:999"><iao-alert-start></iao-alert-start></iao-alert-box>');
-
                                         $("#submit_update_size_image").click(function() {
                                             var jsonData = [{
                                                 x: $('#x1').val(),
@@ -176,7 +293,6 @@ $(function() {
                 }
             });
 
-
             this.on("success", function(a) {
                 // $('#imageUpload').html('');
                 // $('#imageUpload').load('administrator/upload/fileImage/reload');                    
@@ -184,12 +300,20 @@ $(function() {
 
             this.on("removedfile", function(file) {
 
-                var obj = $.parseJSON(file.xhr.response);
-
-                for (var i = 0; i < cache_files.length; i++) {
-                    if (cache_files[i].name == obj['filename']) {
-                        cache_files.splice(i, 1);
-                        break;
+                if (file.xhr) {
+                    var obj = $.parseJSON(file.xhr.response);
+                    for (var i = 0; i < cache_files.length; i++) {
+                        if (cache_files[i].name == obj['filename']) {
+                            cache_files.splice(i, 1);
+                            break;
+                        }
+                    }
+                } else {
+                    for (var i = 0; i < server_files.length; i++) {
+                        if (server_files[i].name == file.name) {
+                            server_files.splice(i, 1);
+                            break;
+                        }
                     }
                 }
 
@@ -213,8 +337,12 @@ $(function() {
         success: function(file, done) {
             photo_counter++;
             $("#photoCounter").text("(" + photo_counter + ")");
+        },
+        accept: function(file, done) {
+            if (file.name == "justinbieber.jpg") {
+                done("Naha, you don't.");
+            } else { done(); }
         }
-
     });
 
     function loadCacheImgs(me, data) {

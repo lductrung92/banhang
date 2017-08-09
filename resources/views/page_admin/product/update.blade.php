@@ -1,6 +1,6 @@
 @extends('page_admin.base.base')
 
-@section('title', 'Thêm sản phẩm')
+@section('title', 'Cập nhật sản phẩm')
 
 @section('global_css')
     <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,100,500,700,900" rel="stylesheet" type="text/css">
@@ -46,9 +46,12 @@
     <!-- Custom  -->
     <script>
         var cache_files = [];
+        var server_files = [];
+        var id_update = {{ $product->id }};
     </script>
     <script src="assets/custom/handle-form.js"></script>
-    <script src="assets/custom/product-insert.js"></script>
+    <script src="assets/custom/product-update.js"></script>
+    <script src="assets/custom/update-upload-crop.js"></script>
 @endsection
 
 @section('content')
@@ -57,7 +60,7 @@
         <div class="page-header page-header-default">
             <div class="page-header-content">
                 <div class="page-title">
-                    <h4><i class="icon-arrow-left52 position-left"></i> <span class="text-semibold">Sản phẩm</span> - {{ trans('manage.btn.create') }}</h4>
+                    <h4><i class="icon-arrow-left52 position-left"></i> <span class="text-semibold">Sản phẩm</span> - {{ trans('manage.btn.update') }}</h4>
                 </div>
 
                 <div class="heading-elements">
@@ -85,14 +88,14 @@
                     <div class="col-lg-12">
                         <div class="col-lg-2"></div>
                         <div class="col-lg-8">
-                            <form class="form-horizontal" id="formCreateProduct" action="{{ route('postInsertCate') }}" method="post">
+                            <form class="form-horizontal" id="formUpdateProduct" action="{{ route('postInsertCate') }}" method="post">
                                 <input type='hidden' name='_token' value="{{ csrf_token() }}">
                                 <div class="form-group">
                                     <label class="col-lg-2 control-label">Danh mục</label>
                                     <div class="col-lg-9">
                                         <select data-placeholder="Chọn danh mục" class="form-control chzn-select" tabindex="5" name="selCate">
                                             <option value="0">-- Chọn danh mục --</option>
-                                            {{ showOptionCateChilds($cateops) }}
+                                            {{ showOptionCateChilds($cateops, $product->cid) }}
                                         </select>
                                     </div>
                                 </div>
@@ -101,14 +104,14 @@
                                 <div class="form-group">
                                     <label for="text" class="col-lg-2 control-label">Tên sản phẩm</label>
                                     <div class="col-lg-9">
-                                        <input type="text" name="txtNameProduct" placeholder="Nhập tên sản phẩm" class="form-control">
+                                        <input type="text" value="{{ $product->name }}" name="txtNameProduct" placeholder="Nhập tên sản phẩm" class="form-control">
                                     </div>
                                 </div>
 
                                 <div class="form-group">
                                     <label for="text" class="col-lg-2 control-label">Tiêu đề</label>
                                     <div class="col-lg-9">
-                                        <input type="text" name="txtNameTitle" placeholder="Nhập tên tiêu đề sản phẩm" class="form-control">
+                                        <input type="text" value="{{ $product->title }}" name="txtNameTitle" placeholder="Nhập tên tiêu đề sản phẩm" class="form-control">
                                     </div>
                                 </div>
 
@@ -117,7 +120,7 @@
                                     <div class="col-lg-9">
                                         <div class="checkbox checkbox-switchery switchery-xs">
                                             <label>
-                                                <input type="checkbox" name="checkStatus" class="switchery" checked="checked">
+                                                <input type="checkbox" name="checkStatus" class="switchery" {{ $product->status === 1 ? 'checked' : '' }} >
                                                 Hiển thị
                                             </label>
 										</div>
@@ -127,7 +130,7 @@
                                 <div class="form-group">
                                     <label for="text" class="col-lg-2 control-label">Link SEO</label>
                                     <div class="col-lg-9">
-                                        <input type="text" name="txtSlug" placeholder="Nhập link seo" class="form-control">
+                                        <input type="text" value="{{ $product->slug }}" name="txtSlug" placeholder="Nhập link seo" class="form-control">
                                         <p class="help-block"><i>* Nhập không dấu cách nhau bằng ký tự '-'</i></p>
                                     </div>
                                 </div>
@@ -135,7 +138,7 @@
                                 <div class="form-group">
                                     <label for="text" class="col-lg-2 control-label">Giá</label>
                                     <div class="col-lg-9">
-                                        <input type="text" class="form-control" name="txtPrice" placeholder="Nhập giá sản phẩm" data-mask="VNĐ">
+                                        <input type="text" value="{{ $product->price }}" class="form-control" name="txtPrice" placeholder="Nhập giá sản phẩm" data-mask="VNĐ">
                                     </div>
                                 </div>
 
@@ -144,7 +147,7 @@
                                     <div class="col-lg-9">
                                         <div class="checkbox checkbox-switchery switchery-xs">
                                             <label>
-                                                <input type="checkbox" name="checkisNew" class="switchery">
+                                                <input type="checkbox" name="checkisNew" class="switchery" {{ $product->isnew === 1 ? 'checked' : '' }}>
                                                 Nổi bật
                                             </label>
 										</div>
@@ -161,7 +164,7 @@
                     <div class="col-lg-12">
                         <label class="col-lg-1 control-label">Mô tả</label>
                         <div class="col-lg-10">
-                            <textarea class="form-control" id="desProduct" name="txtDesCate" placeholder="Mô tả không quá 25 ký tự"></textarea>
+                            <textarea class="form-control" id="desProduct" name="txtDesCate" placeholder="Mô tả không quá 25 ký tự">{{ $product->description }}</textarea>
                         </div>
                     </div> 
                 </div>  
@@ -170,7 +173,9 @@
                     <div class="col-lg-12">
                         <label class="col-lg-1 control-label">Ảnh</label>
                         <div class="col-lg-10">
-                            <div id="imageUpload"></div>
+                            <div id="imageUpload">
+                                @include('page_admin.product.imageupload_update')
+                            </div>
                         </div>
                     </div> 
                 </div> 
@@ -178,8 +183,8 @@
                 <div class="panel-body" style="padding-top: 0px">
                     <div class="col-lg-12">
                         <div class="text-right" style="margin-bottom: 20px;">
-                            <input type="submit" class="btn btn-primary" id="btnCreateProduct" value="{{ trans('manage.btn.create') }}">
-                            <input type="button" class="btn btn-warning" id="btnResetCreate" value="{{ trans('manage.btn.refresh') }}">
+                            <input type="submit" class="btn btn-primary" id="btnUpdateProduct" value="{{ trans('manage.btn.update') }}">
+                            <input type="button" class="btn btn-warning" id="btnResetUpdate" value="{{ trans('manage.btn.refresh') }}">
                         </div>
                     </div> 
                 </div> 
@@ -194,6 +199,7 @@
         </div>
         <!-- /content area -->
     </div>
+    
     @if(Session::has('messages'))
         <script>
             window.onload = function() {

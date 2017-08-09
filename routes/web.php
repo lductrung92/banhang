@@ -33,9 +33,20 @@ Route::group(['prefix' => 'administrator', 'middleware' => 'language'], function
 
     Route::group(['prefix' => 'product'], function() {
         Route::get('/', ['as' => 'pageProductIndex', 'uses' => 'Administrator\ProductController@index']);
+
+        /** datatable server side */
+
+        Route::post('/allproducts', ['as' => 'allproducts', 'uses' => 'Administrator\ProductController@allproducts']);
+
         Route::get('/insert', ['as' => 'getInsertProduct', 'uses' => 'Administrator\ProductController@showFormInsert']);
         Route::post('/insert', ['as' => 'postInsertProduct', 'uses' => 'Administrator\ProductController@insert']);
         Route::get('/viewImages/{id}', ['as' => 'viewImages', 'uses' => 'Administrator\ProductController@viewImages']);
+
+        Route::get('/update/{id}', ['as' => 'getUpdateProduct', 'uses' => 'Administrator\ProductController@showFormUpdate']);
+        Route::get('view/images/{id}', ['as' => 'server_image', 'uses' => 'Administrator\ProductController@viewUpdateImages']);
+        Route::post('/update/{id}', ['as' => 'postUpdateProduct', 'uses' => 'Administrator\ProductController@update']);
+
+        Route::get('/delete/{id}', ['as' => 'getDeleteProduct', 'uses' => 'Administrator\ProductController@delete']);
     });
 
     Route::group(['prefix' => 'filemanager'], function () {
@@ -46,7 +57,12 @@ Route::group(['prefix' => 'administrator', 'middleware' => 'language'], function
     Route::group(['prefix' => 'upload'], function () {
         Route::get('fileImage/updateSize', ['as' => 'update_size', 'uses' => 'Administrator\FileManagerController@getUploadSize']);
         Route::post('fileImage', ['as' => 'upload_image', 'uses' => 'Administrator\FileManagerController@postUpload']);
+       
+        /** reload image in view insert product*/
         Route::get('fileImage/reload', 'Administrator\FileManagerController@reload');
+
+        /** reload image in view update product*/
+        Route::get('fileImage/update/reload', 'Administrator\FileManagerController@reloadUpdate');
     });
 
 });

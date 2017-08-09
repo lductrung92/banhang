@@ -98,6 +98,7 @@ class ImageRepository
         $manager = new ImageManager();
         foreach(json_decode($data) as $key => $value){
             $path_parts = pathinfo($value->name);
+            
            //dd(getimagesize($value->name)[2]);
             // echo $path_parts['basename'];
             // echo $path_parts['extension'];
@@ -121,10 +122,17 @@ class ImageRepository
             // $img = $manager->make( 'uploads/products/'  . $path_parts['basename'] )->resize(200, null, function ($constraint) {
             //         $constraint->aspectRatio();
             //     })->save('uploads/products/thumbnail/'  . $path_parts['basename'], 90);
-
-            $img = $manager->make( 'uploads/caches/'  . $path_parts['basename'] )->resize(200, null, function ($constraint) {
-                $constraint->aspectRatio();
-            });
+            
+            if($path_parts['dirname'] === 'uploads/products') {
+                $img = $manager->make( 'uploads/products/'  . $path_parts['basename'] )->resize(200, null, function ($constraint) {
+                    $constraint->aspectRatio();
+                });
+            } else {
+                $img = $manager->make( 'uploads/caches/'  . $path_parts['basename'] )->resize(200, null, function ($constraint) {
+                    $constraint->aspectRatio();
+                });
+            }
+            
             return $img;
         }
     }
