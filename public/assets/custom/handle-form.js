@@ -163,75 +163,78 @@
         }
     }
 
-    $.fn.tableServerSide = function(options) {
-        var defaults = {
-            url: null,
-            columns: null,
-            setTable: function(me) {},
-        }
-        var settings = $.extend(defaults, options);
+    // $.fn.tableServerSide = function(options) {
+    //     var defaults = {
+    //         url: null,
+    //         columns: null,
+    //         setTable: function(me) {},
+    //     }
+    //     var settings = $.extend(defaults, options);
 
-        return this.each(function() {
-            var me = $(this);
+    //     return this.each(function() {
+    //         var me = $(this);
 
-            var table = setTable(me);
+    //         setTable(me);
 
-            // setInterval(function() {
-            //     table.ajax.reload();
-            // }, 1000);
+    //         // setInterval(function() {
+    //         //     table.ajax.reload();
+    //         // }, 1000);
 
-            // setInterval(function() {
-            //     var data = table.ajax.params();
-            //     table.ajax.url(settings.url).load();
-            // }, 1000);
+    //         // setInterval(function() {
+    //         //     var data = table.ajax.params();
+    //         //     table.ajax.url(settings.url).load();
+    //         // }, 1000);
 
-            // $('#myQuestion').click(function() {
-            //     if (login()) {
-            //         var userId = $.cookie("userId");
-            //         table.ajax.url("${context}/question/my.htm?userId=" + userId).load();
-            //     }
-            // });
+    //         // $('#myQuestion').click(function() {
+    //         //     if (login()) {
+    //         //         var userId = $.cookie("userId");
+    //         //         table.ajax.url("${context}/question/my.htm?userId=" + userId).load();
+    //         //     }
+    //         // });
 
 
 
-            $('select[name=dataTable_length]').select2({
-                minimumResultsForSearch: Infinity,
-                width: 'auto'
-            });
-        });
+    //         $('select[name=dataTable_length]').select2({
+    //             minimumResultsForSearch: Infinity,
+    //             width: 'auto'
+    //         });
+    //     });
 
-        function setTable(me) {
-            var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
-            var op = {
-                processing: false,
-                serverSide: true,
-                ajax: {
-                    url: settings.url,
-                    dataType: "json",
-                    type: "POST",
-                    data: { _token: CSRF_TOKEN }
-                },
-                language: {
-                    zeroRecords: "Không tìm thấy",
-                    infoEmpty: "Không thìm thấy",
-                    infoFiltered: "(Tìm kiếm trong _MAX_ danh mục)",
-                    paginate: {
-                        "first": "Trang đầu",
-                        "last": "Trang cuối",
-                        "next": "<i class='fa fa-angle-double-right'></i>",
-                        "previous": "<i class='fa fa-angle-double-left'></i>"
-                    },
-                    search: '<span>Tìm kiếm:</span> _INPUT_',
-                    lengthMenu: '<span>Hiển thị:</span> _MENU_',
-                },
-                columns: settings.columns,
-                bInfo: false,
-                dom: '<"datatable-header"fl><"datatable-scroll"t><"datatable-footer"ip>'
-            }
+    //     function setTable(me) {
+    //         var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+    //         var op = {
+    //             processing: false,
+    //             serverSide: true,
+    //             ajax: {
+    //                 url: settings.url,
+    //                 dataType: "json",
+    //                 type: "POST",
+    //                 data: function(d) {
+    //                     d._token = CSRF_TOKEN;
+    //                 }
+    //             },
+    //             language: {
+    //                 zeroRecords: "Không tìm thấy",
+    //                 infoEmpty: "Không thìm thấy",
+    //                 infoFiltered: "(Tìm kiếm trong _MAX_ danh mục)",
+    //                 paginate: {
+    //                     "first": "Trang đầu",
+    //                     "last": "Trang cuối",
+    //                     "next": "<i class='fa fa-angle-double-right'></i>",
+    //                     "previous": "<i class='fa fa-angle-double-left'></i>"
+    //                 },
+    //                 search: '<span>Tìm kiếm:</span> _INPUT_',
+    //                 lengthMenu: '<span>Hiển thị:</span> _MENU_',
+    //             },
+    //             columns: settings.columns,
+    //             bInfo: false,
+    //             searching: false,
+    //             dom: '<"datatable-header"fl><"datatable-scroll"t><"datatable-footer"ip>'
+    //         }
 
-            return me.DataTable(op);
-        }
-    }
+    //         return me.DataTable(op);
+    //     }
+    // }
 
     /**
      * Type: info, success, warning, danger, reminder, todo

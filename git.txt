@@ -24,3 +24,8 @@ Install: composer vs git vs xampp
 
 Laravel: https://sebastiandedeyne.com/posts/2017/non-breaking-seo-friendly-urls-in-laravel
 
+children() - parent()
+append them vao trong div --- cuoi
+prepend them vao div --- dau
+has - find - 
+

@@ -33,6 +33,9 @@
     <script type="text/javascript" src="assets/plugin/assets/js/core/app.js"></script>
     <!-- Custom  -->
     <script src="assets/custom/handle-form.js"></script>
+    <script>
+        var selSearch = '{{ showOptionCateChilds($cateops) }}';
+    </script>
     <script src="assets/custom/product.js"></script>
 @endsection
 

@@ -35,7 +35,18 @@ class ProductController extends Controller
     
     /** return danh sách sản phẩm */
     public function index() {
-        return View::make('page_admin.product.index');
+        $categories = Category::all();
+        $cateops = array();
+
+        foreach($categories as $item) {
+            if(count($item->childs) === 0) {
+                array_push($cateops, array(
+                    'id' => $item->id,
+                    'name' => $item->name
+                ));
+            }
+        } 
+        return View::make('page_admin.product.index', compact('cateops'));
     }
 
     /** get all product - datatable server side */
@@ -59,26 +70,39 @@ class ProductController extends Controller
         $order = $columns[$request->input('order.0.column')];
         $dir = $request->input('order.0.dir');
 
+        $keysearch = $request->input('search.category');
+
         if(empty($request->input('search.value')))
         {            
-            $products = Product::offset($start)
-                         ->limit($limit)
-                         ->orderBy($order,$dir)
-                         ->get();
+
+            $products = DB::table('products')
+                        ->when($keysearch , function ($query) use ($keysearch) {
+                            return $query->where('cid', '=', $keysearch);
+                        })
+                        ->offset($start)
+                        ->limit($limit)
+                        ->orderBy($order,$dir)
+                        ->get();
         }
         else {
             $search = $request->input('search.value'); 
 
-            $products =  Product::where('id','LIKE',"%{$search}%")
-                            ->orWhere('title', 'LIKE',"%{$search}%")
-                            ->offset($start)
-                            ->limit($limit)
-                            ->orderBy($order,$dir)
-                            ->get();
+            $products = DB::table('products')
+                        ->when($keysearch , function ($query) use ($keysearch) {
+                            return $query->where('cid', '=', $keysearch);
+                        })
+                        ->where('name', 'LIKE',"%{$search}%")
+                        ->offset($start)
+                        ->limit($limit)
+                        ->orderBy($order,$dir)
+                        ->get();
 
-            $totalFiltered = Product::where('id','LIKE',"%{$search}%")
-                             ->orWhere('title', 'LIKE',"%{$search}%")
-                             ->count();
+            $totalFiltered = DB::table('products')
+                            ->when($keysearch , function ($query) use ($keysearch) {
+                                return $query->where('cid', '=', $keysearch);
+                            })
+                            ->where('name', 'LIKE',"%{$search}%")
+                            ->count();
         }
 
         $data = array();
