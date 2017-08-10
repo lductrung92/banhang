@@ -111,42 +111,61 @@
                                     </div>
                                     
                                     <style type="text/css">
-                                        .item-image{
-                                            display: table;
-                                            margin: 0 auto;
-                                            overflow: auto;
+                                        .icon-cate{
                                             max-height: 150px;
                                         }
-                                        .item-image-chooser {
-                                            margin: 2px;
-                                            float: left;
+                                        .icon-cate-chooser {
+                                            cursor: pointer;
+                                            margin: 3px;
+                                            margin-left: -6px;
                                             border: 1px solid #ddd;
                                             border-radius: 2px;
+                                            position: relative;
+                                            background: rgba(0,0,0,0);
+                                            transition: background-color 1s;
                                         } 
-                                        .item-image-chooser img{
-                                            width: 50px;
-                                            height: 50px;
+                                        .icon-cate-chooser:hover {
+                                            background-color: rgba(0,0,0,.2);
+                                        }
+                                        .icon-cate-chooser:before {
+                                            position: absolute;
+                                            top: 0; right: 0; bottom: 0; left: 0;
+                                            background-color: inherit;
+                                            content: ' ';
+                                        } 
+                                        
+                                        .is-chooser{
+                                            border: 2px solid green;
+                                        }
+                                        .icon-cate-chooser img{
+                                            width: 40px;
+                                            height: 40px;
                                             cursor: pointer;
                                         }
                                     </style>
-                                    
-                                    <div class="form-group item-image">
-                                        <div class="item-image-chooser" onclick="chooserIcon(this)">
+                                    <div class="form-group" style="margin-bottom: 0px;">
+                                        <label>Icon:</label>
+                                    </div>
+                                    <div class="form-group icon-cate">
+                                        <div class="icon-cate-chooser is-chooser" onclick="chooserIcon(this);">
+                                            <img alt="" src="css/images/no-image-icon.jpg">
+                                            <i class="icon-checkmark2" style="position: absolute; top: initial; bottom: 0; right: 0; color: green;"></i>
+                                        </div>
+                                        <div class="icon-cate-chooser" onclick="chooserIcon(this);">
                                             <img alt="" src="//bizweb.dktcdn.net/100/172/651/themes/226402/assets/brand_1_block_home_1.png?1502292270754">
                                         </div>
-                                        <div class="item-image-chooser" onclick="chooserIcon(this)">
+                                        <div class="icon-cate-chooser" onclick="chooserIcon(this);">
                                             <img alt="" src="//bizweb.dktcdn.net/100/172/651/themes/226402/assets/brand_1_block_home_1.png?1502292270754">
                                         </div>
-                                        <div class="item-image-chooser" onclick="chooserIcon(this)">
+                                        <div class="icon-cate-chooser" onclick="chooserIcon(this);">
                                             <img alt="" src="//bizweb.dktcdn.net/100/172/651/themes/226402/assets/brand_1_block_home_1.png?1502292270754">
                                         </div>
-                                        <div class="item-image-chooser" onclick="chooserIcon(this)">
+                                        <div class="icon-cate-chooser" onclick="chooserIcon(this);">
                                             <img alt="" src="//bizweb.dktcdn.net/100/172/651/themes/226402/assets/brand_1_block_home_1.png?1502292270754">
                                         </div>
-                                        <div class="item-image-chooser" onclick="chooserIcon(this)">
+                                        <div class="icon-cate-chooser" onclick="chooserIcon(this);">
                                             <img alt="" src="//bizweb.dktcdn.net/100/172/651/themes/226402/assets/brand_1_block_home_1.png?1502292270754">
                                         </div>
-                                        
                                     </div>
 
                                     <div class="form-group">

@@ -117,12 +117,12 @@ $(document).ready(function() {
 });
 
 function chooserIcon(elmnt) {
-    var elems = document.querySelectorAll('.item-image-chooser');
-    for (var i = 0; i < elems.length; i++) {
-        elems[i].style.border = '1px solid #ddd';
+    if (!$(elmnt).hasClass('is-chooser')) {
+        $('.is-chooser').removeClass('is-chooser');
+        $('.icon-checkmark2').remove('.icon-checkmark2');
+        $(elmnt).addClass('is-chooser');
+        $(elmnt).append('<i class="icon-checkmark2" style="position: absolute; top: initial; bottom: 0; right: 0; color: green"></i>');
     }
-    
-    elmnt.style.border = '2px solid green';
 }
 
 // function showOptionCategories(me, categories, parent_id = 0, char = '') {
