@@ -11,7 +11,7 @@
 |
 */
 Route::get('/', function () {
-    return view('welcome');
+    return view('page_home.index');
 });
 Route::get('/login', ['as' => 'getLoginAdmin', 'uses' => 'Administrator\AuthController@index']);
 
@@ -66,3 +66,5 @@ Route::group(['prefix' => 'administrator', 'middleware' => 'language'], function
     });
 
 });
+
+

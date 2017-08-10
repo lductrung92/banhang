@@ -109,6 +109,45 @@
                                         <input type="text" name="txtNameCate" placeholder="Nhập tên danh mục" class="form-control">
                                         @if ($errors->has('txtNameCate')) <p class="help-block">{{ $errors->first('txtNameCate') }}</p> @endif
                                     </div>
+                                    
+                                    <style type="text/css">
+                                        .item-image{
+                                            display: table;
+                                            margin: 0 auto;
+                                            overflow: auto;
+                                            max-height: 150px;
+                                        }
+                                        .item-image-chooser {
+                                            margin: 2px;
+                                            float: left;
+                                            border: 1px solid #ddd;
+                                            border-radius: 2px;
+                                        } 
+                                        .item-image-chooser img{
+                                            width: 50px;
+                                            height: 50px;
+                                            cursor: pointer;
+                                        }
+                                    </style>
+                                    
+                                    <div class="form-group item-image">
+                                        <div class="item-image-chooser" onclick="chooserIcon(this)">
+                                            <img alt="" src="//bizweb.dktcdn.net/100/172/651/themes/226402/assets/brand_1_block_home_1.png?1502292270754">
+                                        </div>
+                                        <div class="item-image-chooser" onclick="chooserIcon(this)">
+                                            <img alt="" src="//bizweb.dktcdn.net/100/172/651/themes/226402/assets/brand_1_block_home_1.png?1502292270754">
+                                        </div>
+                                        <div class="item-image-chooser" onclick="chooserIcon(this)">
+                                            <img alt="" src="//bizweb.dktcdn.net/100/172/651/themes/226402/assets/brand_1_block_home_1.png?1502292270754">
+                                        </div>
+                                        <div class="item-image-chooser" onclick="chooserIcon(this)">
+                                            <img alt="" src="//bizweb.dktcdn.net/100/172/651/themes/226402/assets/brand_1_block_home_1.png?1502292270754">
+                                        </div>
+                                        <div class="item-image-chooser" onclick="chooserIcon(this)">
+                                            <img alt="" src="//bizweb.dktcdn.net/100/172/651/themes/226402/assets/brand_1_block_home_1.png?1502292270754">
+                                        </div>
+                                        
+                                    </div>
 
                                     <div class="form-group">
                                         <div class="checkbox checkbox-switchery switchery-xs">

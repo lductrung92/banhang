@@ -116,6 +116,15 @@ $(document).ready(function() {
 
 });
 
+function chooserIcon(elmnt) {
+    var elems = document.querySelectorAll('.item-image-chooser');
+    for (var i = 0; i < elems.length; i++) {
+        elems[i].style.border = '1px solid #ddd';
+    }
+    
+    elmnt.style.border = '2px solid green';
+}
+
 // function showOptionCategories(me, categories, parent_id = 0, char = '') {
 //     $.each(categories, function(key, item) {
 //         if (item.pid == parent_id) {
