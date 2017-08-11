@@ -17,6 +17,7 @@ class CreateCategoriesTable extends Migration
             $table->increments('id');
             $table->integer('pid');
             $table->string('name')->unique();
+            $table->string('icon')->nullable();
             $table->string('slug');
             $table->string('description')->nullable();
             $table->tinyInteger('status');

@@ -32,3 +32,5 @@ append them vao trong div --- cuoi
 prepend them vao div --- dau
 has - find - 
 
+getAttribute - attr
+

@@ -32,6 +32,37 @@
         .c1 { color: #f77720;cursor: pointer;}
         .c2 { color: #b5e853;cursor: pointer; }
 
+        .icon-cate{
+            max-height: 150px;
+        }
+        .icon-cate-chooser {
+            cursor: pointer;
+            margin: 3px;
+            margin-left: -6px;
+            border: 1px solid #ddd;
+            border-radius: 2px;
+            position: relative;
+            background: rgba(0,0,0,0);
+            transition: background-color 1s;
+        } 
+        .icon-cate-chooser:hover {
+            background-color: rgba(0,0,0,.2);
+        }
+        .icon-cate-chooser:before {
+            position: absolute;
+            top: 0; right: 0; bottom: 0; left: 0;
+            background-color: inherit;
+            content: ' ';
+        } 
+        
+        .is-chooser{
+            border: 2px solid green;
+        }
+        .icon-cate-chooser img{
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+        }
     </style>
 @endsection
 
@@ -109,63 +140,21 @@
                                         <input type="text" name="txtNameCate" placeholder="Nhập tên danh mục" class="form-control">
                                         @if ($errors->has('txtNameCate')) <p class="help-block">{{ $errors->first('txtNameCate') }}</p> @endif
                                     </div>
-                                    
-                                    <style type="text/css">
-                                        .icon-cate{
-                                            max-height: 150px;
-                                        }
-                                        .icon-cate-chooser {
-                                            cursor: pointer;
-                                            margin: 3px;
-                                            margin-left: -6px;
-                                            border: 1px solid #ddd;
-                                            border-radius: 2px;
-                                            position: relative;
-                                            background: rgba(0,0,0,0);
-                                            transition: background-color 1s;
-                                        } 
-                                        .icon-cate-chooser:hover {
-                                            background-color: rgba(0,0,0,.2);
-                                        }
-                                        .icon-cate-chooser:before {
-                                            position: absolute;
-                                            top: 0; right: 0; bottom: 0; left: 0;
-                                            background-color: inherit;
-                                            content: ' ';
-                                        } 
-                                        
-                                        .is-chooser{
-                                            border: 2px solid green;
-                                        }
-                                        .icon-cate-chooser img{
-                                            width: 40px;
-                                            height: 40px;
-                                            cursor: pointer;
-                                        }
-                                    </style>
+                                   
                                     <div class="form-group" style="margin-bottom: 0px;">
                                         <label>Icon:</label>
                                     </div>
                                     <div class="form-group icon-cate">
-                                        <div class="icon-cate-chooser is-chooser" onclick="chooserIcon(this);">
+                                        <div class="icon-cate-chooser is-chooser" onclick="chooserIcon('form#formCreateCate', this, false);">
                                             <img alt="" src="css/images/no-image-icon.jpg">
                                             <i class="icon-checkmark2" style="position: absolute; top: initial; bottom: 0; right: 0; color: green;"></i>
                                         </div>
-                                        <div class="icon-cate-chooser" onclick="chooserIcon(this);">
-                                            <img alt="" src="//bizweb.dktcdn.net/100/172/651/themes/226402/assets/brand_1_block_home_1.png?1502292270754">
-                                        </div>
-                                        <div class="icon-cate-chooser" onclick="chooserIcon(this);">
-                                            <img alt="" src="//bizweb.dktcdn.net/100/172/651/themes/226402/assets/brand_1_block_home_1.png?1502292270754">
-                                        </div>
-                                        <div class="icon-cate-chooser" onclick="chooserIcon(this);">
-                                            <img alt="" src="//bizweb.dktcdn.net/100/172/651/themes/226402/assets/brand_1_block_home_1.png?1502292270754">
-                                        </div>
-                                        <div class="icon-cate-chooser" onclick="chooserIcon(this);">
-                                            <img alt="" src="//bizweb.dktcdn.net/100/172/651/themes/226402/assets/brand_1_block_home_1.png?1502292270754">
-                                        </div>
-                                        <div class="icon-cate-chooser" onclick="chooserIcon(this);">
-                                            <img alt="" src="//bizweb.dktcdn.net/100/172/651/themes/226402/assets/brand_1_block_home_1.png?1502292270754">
-                                        </div>
+                                        @foreach($icons as $icon)
+                                             <div class="icon-cate-chooser" onclick="chooserIcon('form#formCreateCate', this, true);">
+                                                <img alt="" src="{{ $icon }}">
+                                            </div>
+                                        @endforeach
+                                        <input type="hidden" name="txtIcon">
                                     </div>
 
                                     <div class="form-group">
@@ -234,6 +223,7 @@
                             <th class='hidden'></th>
                             <th>Trạng thái</th>
                             <th></th>
+                            <th class='hidden'></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -250,6 +240,7 @@
                                     <button style="font-size: 7px; padding: 5px 6px;" class="btn btn-primary btn-xs" data-title="Edit" data-toggle="modal" data-target="#edit" ><span style="font-size: 10px;" class="glyphicon glyphicon-pencil"></span></button>
                                     <a style="font-size: 7px; padding: 5px 6px;" href='administrator/category/delete/{{ $cate->id }}' class="btn btn-danger btn-xs"><span style="font-size: 10px;" class="glyphicon glyphicon-trash"></span></a>
                                 </td>
+                                <td class='hidden'>{{ $cate->icon }}</td>
                             </tr>
                         @endforeach
                     </tbody>
@@ -282,6 +273,21 @@
 
                                     <div class="col-lg-8">
                                         <input type="text" name="txtNameCate" placeholder="Nhập tên danh mục" class="form-control">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="control-label col-lg-3">Icon</label>
+                                    <div class="icon-cate col-lg-8">
+                                        <div class="icon-cate-chooser" onclick="chooserIcon('div#formUpdateCate', this, false);">
+                                            <img alt="" src="css/images/no-image-icon.jpg">
+                                        </div>
+                                        @foreach($icons as $icon)
+                                            <div class="icon-cate-chooser" onclick="chooserIcon('div#formUpdateCate', this, true);">
+                                                <img alt="" src="{{ $icon }}" data='{{ $icon }}'>
+                                            </div>
+                                        @endforeach
+                                        <input type="hidden" name="txtIcon">
                                     </div>
                                 </div>
 

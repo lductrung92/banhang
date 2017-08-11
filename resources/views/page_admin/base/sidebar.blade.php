@@ -49,11 +49,6 @@
                                     <i class="{{ trans('manage.product.childs.sale.icon') }}"></i>&nbsp;&nbsp;{{ trans('manage.product.childs.sale.title') }}     
                                 </a>
                             </li>
-                            <li>
-                                <a href="boxed.html">
-                                    <i class="{{ trans('manage.product.childs.warehouse.icon') }}"></i>&nbsp;&nbsp;{{ trans('manage.product.childs.warehouse.title') }}
-                                </a>
-                            </li>
                         </ul>
                     </li>
                     <li><a><i class="fa fa-shopping-cart"></i> Đơn hàng </a></li>

@@ -158,6 +158,17 @@
                     obj[value.index] == '' ? sel.val(0) : sel.val(obj[value.index]);
                 if (value.type == 'checkbox')
                     obj[value.index] == 'Hiển thị' ? sel.prop("checked", true) : sel.prop("checked", false);
+                if (value.type == 'icon'){
+                    var selImage = $('#' + settings.selector.form).find('img');
+                    alert($.trim(obj[value.index]).split('/')[2])
+                    $.each(selImage, function(i,value){
+                        console.log(selImage[i].getAttribute('data'));
+                        if($.trim(selImage[i].getAttribute('data')).split('/')[2] == $.trim(obj[value.index]).split('/')[2]) {
+                            console.log(selImage[i].getAttribute('data'));
+                        }
+                    });
+                }
+                    
             });
             c = $('#' + settings.selector.form).find('form').serialize();
         }

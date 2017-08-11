@@ -35,7 +35,6 @@ Route::group(['prefix' => 'administrator', 'middleware' => 'language'], function
         Route::get('/', ['as' => 'pageProductIndex', 'uses' => 'Administrator\ProductController@index']);
 
         /** datatable server side */
-
         Route::post('/allproducts', ['as' => 'allproducts', 'uses' => 'Administrator\ProductController@allproducts']);
 
         Route::get('/insert', ['as' => 'getInsertProduct', 'uses' => 'Administrator\ProductController@showFormInsert']);
@@ -48,6 +47,7 @@ Route::group(['prefix' => 'administrator', 'middleware' => 'language'], function
 
         Route::get('/delete/{id}', ['as' => 'getDeleteProduct', 'uses' => 'Administrator\ProductController@delete']);
     });
+
 
     Route::group(['prefix' => 'filemanager'], function () {
         Route::get('/', 'Administrator\FileManagerController@show');

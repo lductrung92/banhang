@@ -22,12 +22,18 @@ class ProductController extends Controller
     /** validator */
     protected $rules = [
         'txtNameProduct' => 'required|max:191|unique:products,name',
+        'txtTotal' => 'required|integer',
+        'selCate' => 'required',
         'txtPrice' => 'required|numeric',
     ];
 
     protected $messages = [
         'txtNameProduct.required' => 'Tên sản phẩm không được để trống',
         'txtNameProduct.max' => 'Tên sản phẩm quá dài',
+        'selCate.required' => 'Chưa chọn danh mục sản phẩm',
+        'txtTotal.required' => 'Số lượng sản phẩm nhập kho không được trống',
+        'txtTotal.integer' => 'Số lượng sản phẩm nhập kho phải là số nguyên',
+        'txtExport.integer' => 'Số lượng sản phẩm xuất kho phải là số nguyên',
         'txtNameProduct.unique' => 'Tên sản phẩm đã tồn tại',
         'txtPrice.required' => 'Giá sản phẩm không thể để trống',
         'txtPrice.numeric' => 'Giá sản phẩm phải là số'  
@@ -58,9 +64,10 @@ class ProductController extends Controller
             2 => 'slug',
             3 => 'price',
             4 => 'status',
-            5 => 'isnew',
-            6 => 'images',
-            7 => 'options'
+            5 => 'total',
+            6 => 'exist',
+            7 => 'images',
+            8 => 'options'
         );
         $totalData = Product::count();
         $totalFiltered = $totalData;
@@ -70,40 +77,66 @@ class ProductController extends Controller
         $order = $columns[$request->input('order.0.column')];
         $dir = $request->input('order.0.dir');
 
-        $keysearch = $request->input('search.category');
+        $catekey = $request->input('search.category');
+        $exist = $request->input('search.winfo');
+        $statuskey = $request->input('search.status');
 
         if(empty($request->input('search.value')))
         {            
 
             $products = DB::table('products')
-                        ->when($keysearch , function ($query) use ($keysearch) {
-                            return $query->where('cid', '=', $keysearch);
+                        ->join('warehouses', 'warehouses.proid', '=', 'products.id')
+                        ->when($catekey , function ($query) use ($catekey) {
+                            return $query->where('cid', '=', $catekey);
+                        })
+                        ->when($exist , function ($query) use ($exist) {
+                             if($exist == 1)
+                                return $query->where('warehouses.exist', '>', 0);
+                            else
+                                return $query->where('warehouses.exist', 0);
+                        })
+                        ->when($statuskey , function ($query) use ($statuskey) {
+                            if($statuskey == 1)
+                                return $query->where('status', 1);
+                            else
+                                return $query->where('status', 0);
                         })
                         ->offset($start)
                         ->limit($limit)
+                        ->select('products.*', 'warehouses.total', 'warehouses.exist')
                         ->orderBy($order,$dir)
                         ->get();
+            $totalFiltered = count($products);
         }
         else {
             $search = $request->input('search.value'); 
 
             $products = DB::table('products')
-                        ->when($keysearch , function ($query) use ($keysearch) {
-                            return $query->where('cid', '=', $keysearch);
+                        ->join('warehouses', 'warehouses.proid', '=', 'products.id')
+                        ->when($catekey , function ($query) use ($catekey) {
+                            return $query->where('cid', '=', $catekey);
+                        })
+                        ->when($exist , function ($query) use ($exist) {
+                             if($exist == 1)
+                                return $query->where('warehouses.exist', '>', 0);
+                            else
+                                return $query->where('warehouses.exist', 0);
+                        })
+                        ->when($statuskey , function ($query) use ($statuskey) {
+                            if($statuskey == 1)
+                                return $query->where('status', 1);
+                            else
+                                return $query->where('status', 0);
                         })
                         ->where('name', 'LIKE',"%{$search}%")
                         ->offset($start)
                         ->limit($limit)
+                        ->select('products.*', 'warehouses.total', 'warehouses.exist')
                         ->orderBy($order,$dir)
                         ->get();
-
-            $totalFiltered = DB::table('products')
-                            ->when($keysearch , function ($query) use ($keysearch) {
-                                return $query->where('cid', '=', $keysearch);
-                            })
-                            ->where('name', 'LIKE',"%{$search}%")
-                            ->count();
+            $totalFiltered = count($products);
         }
+        
 
         $data = array();
 
@@ -116,10 +149,10 @@ class ProductController extends Controller
 
                 $nestedData['name'] = $product->name;
                 $nestedData['title'] = $product->title;
-                $nestedData['slug'] = $product->slug;
-                $nestedData['price'] = $product->slug;
+                $nestedData['price'] = $product->price;
                 $nestedData['status'] = $product->status === 1 ? 'Hiển thị' : 'Không hiển thị';
-                $nestedData['isnew'] = $product->isnew === 1 ? 'Nổi bật' : '';
+                $nestedData['total'] = $product->total;
+                $nestedData['export'] = $product->total - $product->exist;
                 $nestedData['images'] = "<div id='viewImages-{$product->id}'><a href='javascript:;' onclick='viewImages({$product->id})'> Xem ảnh</a></div>";
                 $nestedData['options'] = "<div align='center'>
                 <a style='font-size: 7px; padding: 5px 6px;' href='{$update}' class='btn btn-primary btn-xs' ><span style='font-size: 10px;' class='glyphicon glyphicon-pencil'></span></a>
@@ -213,6 +246,7 @@ class ProductController extends Controller
                 }
                 $wh = new Warehouse();
                 $wh->proid = $product->id;
+                $wh->total = $request->txtTotal;
                 $wh->save();
             } else {
                  return response()->json([
@@ -290,6 +324,9 @@ class ProductController extends Controller
 
         $this->rules = [
             'txtNameProduct' => 'required|max:191|unique:products,name,' . $id,
+            'selCate' => 'required',
+            'txtTotal' => 'nullable|integer', //required_if:txtTotal,
+            'txtExport' => 'nullable|integer',
             'txtPrice' => 'required|numeric',
         ];
 
@@ -360,6 +397,11 @@ class ProductController extends Controller
                     $ima->isfirst = 1;
                     $ima->save();
                 }
+
+                $wh = Warehouse::where('proid', '=', $id)->first();
+                $wh->total = $wh->total + $request->txtTotal;
+                $wh->exist = $wh->exist + $request->txtTotal - $request->txtExport;
+                $wh->save();
 
             } else {
                  return response()->json([

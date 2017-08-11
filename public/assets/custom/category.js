@@ -9,7 +9,7 @@ $(document).ready(function() {
     }
 
     $('#dataTable').table({
-        numberColumn: 8,
+        numberColumn: 9,
         url: 'administrator/category/update/',
         title: {
             id: 'labelFormUpdate',
@@ -22,6 +22,7 @@ $(document).ready(function() {
             txtSlug: { ftype: 'input', index: 3, type: 'text' },
             selCate: { ftype: 'select', index: 5, type: 'select' },
             checkStatus: { ftype: 'input', index: 6, type: 'checkbox' },
+            icon: {ftype: 'icon', index: 8, type: 'icon'}
         },
         orderColum: 0,
         selector: {
@@ -116,12 +117,16 @@ $(document).ready(function() {
 
 });
 
-function chooserIcon(elmnt) {
+function chooserIcon(parent ,elmnt, check) {
     if (!$(elmnt).hasClass('is-chooser')) {
-        $('.is-chooser').removeClass('is-chooser');
-        $('.icon-checkmark2').remove('.icon-checkmark2');
+        $(parent + ' .is-chooser').removeClass('is-chooser');
+        $(parent + ' .icon-checkmark2').remove('.icon-checkmark2');
         $(elmnt).addClass('is-chooser');
         $(elmnt).append('<i class="icon-checkmark2" style="position: absolute; top: initial; bottom: 0; right: 0; color: green"></i>');
+        if(check)
+            $(parent + ' input[name=txtIcon]').val($(elmnt).find('img').attr('src'));
+        else
+            $(parent + ' input[name=txtIcon]').val('');
     }
 }
 

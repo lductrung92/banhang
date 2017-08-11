@@ -21,13 +21,18 @@ class CateController extends Controller
                     ->select('id', 'pid', 'name')
                     ->get();
         $catetbs = Category::all();
-        return View::make('page_admin.category.index', compact(['cateops', 'catels', 'catetbs']));
+
+        $dirname = "icon/small/";
+        $icons = glob($dirname."*.png");
+
+        return View::make('page_admin.category.index', compact(['cateops', 'catels', 'catetbs', 'icons']));
     }
 
     public function postInsert(CateRequest $request) {
         $cate = new Category();
         $cate->pid = $request->selCate;
         $cate->name = $request->txtNameCate;
+        $cate->icon = $request->txtIcon;
         $cate->slug = $request->txtSlug == '' ? changeTitle($request->txtNameCate) : changeTitle($request->txtSlug);
         $cate->description = $request->txtDesCate;
         $cate->status = empty($request->checkStatus) ? 0 : 1;

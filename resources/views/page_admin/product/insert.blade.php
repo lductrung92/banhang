@@ -87,18 +87,18 @@
                         <div class="col-lg-8">
                             <form class="form-horizontal" id="formCreateProduct" action="{{ route('postInsertCate') }}" method="post">
                                 <input type='hidden' name='_token' value="{{ csrf_token() }}">
-                                <div class="form-group">
+                                <div class="form-group required">
                                     <label class="col-lg-2 control-label">Danh mục</label>
                                     <div class="col-lg-9">
                                         <select data-placeholder="Chọn danh mục" class="form-control chzn-select" tabindex="5" name="selCate">
-                                            <option value="0">-- Chọn danh mục --</option>
+                                            <option value="">-- Chọn danh mục --</option>
                                             {{ showOptionCateChilds($cateops) }}
                                         </select>
                                     </div>
                                 </div>
                                 <!-- /.form-group -->
 
-                                <div class="form-group">
+                                <div class="form-group required">
                                     <label for="text" class="col-lg-2 control-label">Tên sản phẩm</label>
                                     <div class="col-lg-9">
                                         <input type="text" name="txtNameProduct" placeholder="Nhập tên sản phẩm" class="form-control">
@@ -132,10 +132,17 @@
                                     </div>
                                 </div>
 
-                                <div class="form-group">
+                                <div class="form-group required">
                                     <label for="text" class="col-lg-2 control-label">Giá</label>
                                     <div class="col-lg-9">
                                         <input type="text" class="form-control" name="txtPrice" placeholder="Nhập giá sản phẩm" data-mask="VNĐ">
+                                    </div>
+                                </div>
+
+                                <div class="form-group required">
+                                    <label for="text" class="col-lg-2 control-label">Số lượng nhập</label>
+                                    <div class="col-lg-9">
+                                        <input type="text" class="form-control" name="txtTotal" placeholder="Số lượng nhập kho">
                                     </div>
                                 </div>
 

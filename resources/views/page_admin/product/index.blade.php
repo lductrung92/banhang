@@ -75,10 +75,10 @@
                         <tr>
                             <th>Tên sản phẩm</th>
                             <th>Tiêu đề</th>
-                            <th>Link SEO</th>
                             <th>Giá</th>
+                            <th>Số lượng</th>
+                            <th>Đã bán</th>
                             <th>Trạng thái</th>
-                            <th>Nổi bật</th>
                             <th>Ảnh sản phẩm</th>
                             <th></th>
                         </tr>

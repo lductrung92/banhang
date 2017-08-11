@@ -94,7 +94,7 @@
                                     <label class="col-lg-2 control-label">Danh mục</label>
                                     <div class="col-lg-9">
                                         <select data-placeholder="Chọn danh mục" class="form-control chzn-select" tabindex="5" name="selCate">
-                                            <option value="0">-- Chọn danh mục --</option>
+                                            <option value="">-- Chọn danh mục --</option>
                                             {{ showOptionCateChilds($cateops, $product->cid) }}
                                         </select>
                                     </div>
@@ -135,10 +135,26 @@
                                     </div>
                                 </div>
 
-                                <div class="form-group">
+                                <div class="form-group required">
                                     <label for="text" class="col-lg-2 control-label">Giá</label>
                                     <div class="col-lg-9">
                                         <input type="text" value="{{ $product->price }}" class="form-control" name="txtPrice" placeholder="Nhập giá sản phẩm" data-mask="VNĐ">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="text" class="col-lg-2 control-label">Số lượng thêm vào</label>
+                                    <div class="col-lg-9">
+                                        <input type="text" class="form-control" data-total="{{ $product->warehouse->exist }}" name="txtTotal" placeholder="Nhập vào số lượng thêm vào">
+                                        <p class="help-block"><i>* Có {{ $product->warehouse->total }} sản phẩm loại này - Đã xuất {{ $product->warehouse->total - $product->warehouse->exist }} sản phẩm loại này - Còn lại: {{ $product->warehouse->exist }}</i></p>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="text" class="col-lg-2 control-label">Số lượng xuất kho</label>
+                                    <div class="col-lg-9">
+                                        <input type="text" class="form-control" value="" name="txtExport" placeholder="Nhập vào số lượng thêm vào">
+                                        <p class="help-block"><i>* Đã xuất {{ $product->warehouse->total - $product->warehouse->exist }} sản phẩm loại này - Còn lại: {{ $product->warehouse->exist }}</i></p>
                                     </div>
                                 </div>
 
