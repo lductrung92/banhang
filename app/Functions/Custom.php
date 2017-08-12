@@ -70,8 +70,14 @@ function showListHomeCategories($categories, $parent_id = 0, $levlup = 2)
     if ($cate_child)
     {
         if($parent_id !== 0){
-            echo '<ul class="menu_child levlup_'. $levlup .'">';
-            $levlup++;
+            if($levlup > 2) {
+                echo '<ul class="menu_child levlups">';
+                $levlup++;
+            } else {
+                echo '<ul class="menu_child">';
+                $levlup++;
+            }
+           
         } 
         foreach ($cate_child as $key => $item)
         {

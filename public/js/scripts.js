@@ -3,10 +3,10 @@
 $(document).ready(function(){
 	var list = $('ul.menu_child');
 	$.each(list, function(i, value) {
-		if($(value).hasClass('levlup_2')){
-			$(value).prev('a').append(' <i class="fa fa-angle-down" aria-hidden="true"></i>');
-		} else {
+		if($(value).hasClass('levlups')){
 			$(value).prev('a').append(' <i class="fa fa-angle-right" aria-hidden="true"></i>');
+		} else {
+			$(value).prev('a').append(' <i class="fa fa-angle-down" aria-hidden="true"></i>');
 		}
 	});
 

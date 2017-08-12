@@ -788,6 +788,12 @@ ul.menu_child.levlup_3 {
 	left: 100%;
 	top: 0;
 }
+
+ul.menu_child.levlups {
+	left: 100%;
+	top: 0;
+}
+
 .navar_menu ul.menu_child li {
 	width: 100%;
 }
