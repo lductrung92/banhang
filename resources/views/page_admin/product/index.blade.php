@@ -74,7 +74,6 @@
                     <thead>
                         <tr>
                             <th>Tên sản phẩm</th>
-                            <th>Tiêu đề</th>
                             <th>Giá</th>
                             <th>Số lượng</th>
                             <th>Đã bán</th>

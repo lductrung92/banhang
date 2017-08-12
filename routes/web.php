@@ -10,9 +10,7 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::get('/', function () {
-    return view('page_home.index');
-});
+
 Route::get('/login', ['as' => 'getLoginAdmin', 'uses' => 'Administrator\AuthController@index']);
 
 Route::group(['prefix' => 'administrator', 'middleware' => 'language'], function() {
@@ -67,4 +65,5 @@ Route::group(['prefix' => 'administrator', 'middleware' => 'language'], function
 
 });
 
+Route::get('/', ['as' => 'home_page', 'uses' => 'HomePage\HomePageController@index']);
 

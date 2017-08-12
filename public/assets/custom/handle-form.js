@@ -85,6 +85,7 @@
                                 settings.selector.button.update.button('reset');
                                 if (msg.status) {
                                     $('#' + settings.selector.form).modal('hide');
+                                    $.session.set("messages", msg.messages);
                                     location.reload();
                                 } else {
                                     var obj = msg.messages;
@@ -159,14 +160,23 @@
                 if (value.type == 'checkbox')
                     obj[value.index] == 'Hiển thị' ? sel.prop("checked", true) : sel.prop("checked", false);
                 if (value.type == 'icon'){
-                    var selImage = $('#' + settings.selector.form).find('img');
-                    alert($.trim(obj[value.index]).split('/')[2])
-                    $.each(selImage, function(i,value){
-                        console.log(selImage[i].getAttribute('data'));
-                        if($.trim(selImage[i].getAttribute('data')).split('/')[2] == $.trim(obj[value.index]).split('/')[2]) {
-                            console.log(selImage[i].getAttribute('data'));
+                    $('#' + settings.selector.form + ' .is-chooser').removeClass('is-chooser');
+                    $('#' + settings.selector.form + ' .icon-checkmark2').remove('.icon-checkmark2');
+                    var selImage = $('#' + settings.selector.form).find('div.icon-cate-chooser');
+                    var check = false;
+                    $.each(selImage, function(i,item){
+                        if($(selImage[i]).find('img').attr('src') == obj[value.index]) {
+                            $(selImage[i]).addClass('is-chooser');
+                            $(selImage[i]).append('<i class="icon-checkmark2" style="position: absolute; top: initial; bottom: 0; right: 0; color: green"></i>');
+                            $('#' + settings.selector.form +' input[name=txtIcon]').val(obj[value.index]);
+                            check = true;
                         }
                     });
+                    if(!check) {
+                        $(selImage).first().addClass('is-chooser');
+                        $(selImage).first().append('<i class="icon-checkmark2" style="position: absolute; top: initial; bottom: 0; right: 0; color: green"></i>');
+                        $('#' + settings.selector.form +' input[name=txtIcon]').val('');
+                    }
                 }
                     
             });

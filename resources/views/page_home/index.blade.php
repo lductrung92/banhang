@@ -481,7 +481,6 @@
             </div>
         </div>
     </section>
-
     <section id="home_block_1" class="home_block">
         <div class="container">
             <div class="main">

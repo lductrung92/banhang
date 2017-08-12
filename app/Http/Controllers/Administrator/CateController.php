@@ -20,8 +20,8 @@ class CateController extends Controller
         $catels = DB::table('categories')
                     ->select('id', 'pid', 'name')
                     ->get();
-        $catetbs = Category::all();
-
+        $catetbs = Category::with(['childs', 'parent'])->get(); // ::has('products')
+        
         $dirname = "icon/small/";
         $icons = glob($dirname."*.png");
 
@@ -63,6 +63,7 @@ class CateController extends Controller
             $cate = Category::find($id);
             $cate->pid = $request->selCate;
             $cate->name = $request->txtNameCate;
+            $cate->icon = $request->txtIcon;
             $cate->slug = $request->txtSlug == '' ? changeTitle($request->txtNameCate) : changeTitle($request->txtSlug);
             $cate->description = $request->txtDesCate;
             $cate->status = empty($request->checkStatus) ? 0 : 1;
@@ -80,7 +81,10 @@ class CateController extends Controller
              $cate->pid = $data['pid'];
              $cate->update();
         }
-        return 'success';
+        return response()->json([
+            'status' => true,
+            'messages' => 'Cập nhật thành công'
+        ]);
     }
 
     public function getDeleteCate($id) {

@@ -69,6 +69,7 @@
 @section('core_js')
     <script type="text/javascript" src="assets/plugin/assets/js/plugins/loaders/pace.min.js"></script>
     <script type="text/javascript" src="assets/plugin/assets/js/core/libraries/jquery.min.js"></script>
+    <script type="text/javascript" src="assets/session/jquery.session.js"></script>
     <script type="text/javascript" src="assets/plugin/assets/js/core/libraries/bootstrap.min.js"></script>
     <script type="text/javascript" src="assets/plugin/assets/js/plugins/loaders/blockui.min.js"></script>
     <script type="text/javascript" src="assets/plugin/assets/js/plugins/forms/styling/switchery.min.js"></script>
@@ -211,7 +212,7 @@
                         </ul>
                     </div>
                 </div>
-
+                
                 <table id="dataTable" class="table datatable-basic table-bordered dataTable no-footer">
                     <thead>
                         <tr>
@@ -279,12 +280,13 @@
                                 <div class="form-group">
                                     <label class="control-label col-lg-3">Icon</label>
                                     <div class="icon-cate col-lg-8">
-                                        <div class="icon-cate-chooser" onclick="chooserIcon('div#formUpdateCate', this, false);">
+                                        <div class="icon-cate-chooser is-chooser" onclick="chooserIcon('div#formUpdateCate', this, false);">
                                             <img alt="" src="css/images/no-image-icon.jpg">
+                                            <i class="icon-checkmark2" style="position: absolute; top: initial; bottom: 0; right: 0; color: green;"></i>
                                         </div>
                                         @foreach($icons as $icon)
                                             <div class="icon-cate-chooser" onclick="chooserIcon('div#formUpdateCate', this, true);">
-                                                <img alt="" src="{{ $icon }}" data='{{ $icon }}'>
+                                                <img alt="" src='{{ $icon }}'>
                                             </div>
                                         @endforeach
                                         <input type="hidden" name="txtIcon">
@@ -348,4 +350,11 @@
         };
         </script>
     @endif
+    <script>
+        window.onload = function() {
+            if($.session.get('messages'))
+                $.notifier('success', 'Thông báo', $.session.get('messages'),'1500');
+                $.session.clear();
+        };
+    </script>
 @endsection

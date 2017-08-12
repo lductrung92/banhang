@@ -55,6 +55,38 @@ function showListCategories($categories, $parent_id = 0, $char = '')
     
 }
 
+function showListHomeCategories($categories, $parent_id = 0, $levlup = 2)
+{
+    $cate_child = array();
+    foreach ($categories as $key => $item)
+    {
+        if ($item->pid == $parent_id)
+        {
+            $cate_child[] = $item;
+            unset($categories[$key]);
+        }
+    }
+     
+    if ($cate_child)
+    {
+        if($parent_id !== 0){
+            echo '<ul class="menu_child levlup_'. $levlup .'">';
+            $levlup++;
+        } 
+        foreach ($cate_child as $key => $item)
+        {
+            // Hiển thị tiêu đề chuyên mục
+            echo '<li><a href="/dam-mac-nha-phoi-no-xinh-xan-twins" title="Áo thun nữ">' . htmlspecialchars($item->name);
+            echo '</a>';
+            // Tiếp tục đệ quy để tìm chuyên mục con của chuyên mục đang lặp
+            showListHomeCategories($categories, $item->id, $levlup);
+            echo '</li>';
+        }
+        if($parent_id !== 0) echo '</ul>';
+    }
+    
+}
+
 function showOptionCateChilds($categories, $idChecked = null) 
 {
     for($i = 0; $i < count($categories); $i++){

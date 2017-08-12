@@ -1,7 +1,6 @@
 $(document).ready(function() {
     var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
 
-
     var table = $('#dataTable').DataTable({
         processing: false,
         serverSide: true,
@@ -15,13 +14,10 @@ $(document).ready(function() {
                 d.search.category = $('select[name="selCate"]').val();
                 d.search.winfo = $('select[name="selwhInfo"]').val();
                 d.search.status = $('select[name="selStatus"]').val();
-
-                console.log(d.search);
             }
         },
         columns: [
             { "data": "name" },
-            { "data": "title" },
             { "data": "price" },
             { "data": "total" },
             { "data": "export" },

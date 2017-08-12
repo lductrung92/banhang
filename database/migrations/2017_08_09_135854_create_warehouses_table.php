@@ -17,7 +17,7 @@ class CreateWarehousesTable extends Migration
             $table->increments('id');
             $table->integer('proid');
             $table->integer('total')->nullable();
-            $table->integer('export')->nullable();
+            $table->integer('exist')->nullable();
             $table->timestamps();
         });
     }

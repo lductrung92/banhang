@@ -102,14 +102,10 @@ $(document).ready(function() {
                 type: "POST",
                 data: { 'data': arr, _token: CSRF_TOKEN },
                 success: function(msg) {
-                    if (msg === 'success') location.reload();
-                    // var select = $('form#formCreateCate select[name=selCate]');
-                    // select.find('option').remove().end();
-                    // select.append('<option value="0">-- Chọn danh mục --</option>')
-                    // showOptionCategories(select, msg.categories);
-
-                    // showListCategories($('#tree_panel'), msg.categories);
-
+                    if (msg.status) {
+                        $.session.set("messages", msg.messages);
+                        location.reload();
+                    }
                 }
             });
         }

@@ -60,14 +60,13 @@ class ProductController extends Controller
         
         $columns = array( 
             0 =>'name', 
-            1 =>'title',
-            2 => 'slug',
-            3 => 'price',
-            4 => 'status',
-            5 => 'total',
-            6 => 'exist',
-            7 => 'images',
-            8 => 'options'
+            1 => 'slug',
+            2 => 'price',
+            3 => 'status',
+            4 => 'total',
+            5 => 'exist',
+            6 => 'images',
+            7 => 'options'
         );
         $totalData = Product::count();
         $totalFiltered = $totalData;
@@ -148,8 +147,7 @@ class ProductController extends Controller
                 $delete =  route('getDeleteProduct', $product->id);
 
                 $nestedData['name'] = $product->name;
-                $nestedData['title'] = $product->title;
-                $nestedData['price'] = $product->price;
+                $nestedData['price'] = number_format($product->price) . ' VNĐ';
                 $nestedData['status'] = $product->status === 1 ? 'Hiển thị' : 'Không hiển thị';
                 $nestedData['total'] = $product->total;
                 $nestedData['export'] = $product->total - $product->exist;
@@ -247,6 +245,7 @@ class ProductController extends Controller
                 $wh = new Warehouse();
                 $wh->proid = $product->id;
                 $wh->total = $request->txtTotal;
+                $wh->exist = $request->txtTotal;
                 $wh->save();
             } else {
                  return response()->json([
