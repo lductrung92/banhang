@@ -25,6 +25,7 @@ $(document).ready(function() {
             icon: {ftype: 'icon', index: 8, type: 'icon'}
         },
         orderColum: 0,
+        btnpopup: 'btnPopupUpdate',
         selector: {
             form: 'formUpdateCate',
             button: {

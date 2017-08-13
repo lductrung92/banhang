@@ -98,12 +98,11 @@
                     <h4><i class="icon-arrow-left52 position-left"></i> <span class="text-semibold">Danh mục</span> - quản lý</h4>
                 </div>
 
-                <!-- <div class="heading-elements">
+                <div class="heading-elements">
                     <div class="heading-btn-group">
-                        <a href="administrator/product/create" type="button" class="btn btn-success"><i class="icon-add position-left"></i> {{ trans('manage.btn.create') }}</a>
-                        <button type="button" class="btn btn-primary"><i class=" icon-file-excel position-left"></i> Xuất Excel</button>
+                        <a href="{{ route('settingDisplay') }}" class="btn btn-primary"><i class="icon-display position-left"></i> Cài đặt hiển thị</a>
                     </div>
-                </div> -->
+                </div>
             </div>
         </div>
         <!-- /page header -->
@@ -238,7 +237,7 @@
                                 <td class='hidden'>@if($cate->parent) {{ $cate->parent->id }} @endif</td>
                                 <td>{{ $cate->status === 1 ? 'Hiển thị' : 'Không hiển thị' }}</td>
                                 <td align="center">
-                                    <button style="font-size: 7px; padding: 5px 6px;" class="btn btn-primary btn-xs" data-title="Edit" data-toggle="modal" data-target="#edit" ><span style="font-size: 10px;" class="glyphicon glyphicon-pencil"></span></button>
+                                    <button style="font-size: 7px; padding: 5px 6px;" id="btnPopupUpdate" class="btn btn-primary btn-xs" data-title="Edit" data-toggle="modal" data-target="#edit" ><span style="font-size: 10px;" class="glyphicon glyphicon-pencil"></span></button>
                                     <a style="font-size: 7px; padding: 5px 6px;" href='administrator/category/delete/{{ $cate->id }}' class="btn btn-danger btn-xs"><span style="font-size: 10px;" class="glyphicon glyphicon-trash"></span></a>
                                 </td>
                                 <td class='hidden'>{{ $cate->icon }}</td>

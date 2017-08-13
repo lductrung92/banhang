@@ -51,14 +51,14 @@ $(document).ready(function() {
 
     var shtml = '<div class="col-lg-9 form-inline">' +
         '<div class="form-group"><select data-placeholder="Chọn danh mục" class="form-control chzn-select" tabindex="5" name="selCate">' +
-        '<option value="0">-- Tất cả danh mục --</option>' +
+        '<option value="0">-- Danh mục --</option>' +
         selSearch +
         '</select></div>' +
         '<div class="form-group"><select data-placeholder="Chọn tình kho hàng" class="form-control chzn-select" tabindex="5" name="selwhInfo">' +
-        '<option value="0">-- Tất cả sản phẩm --</option><option value="1">Còn hàng</option><option value="2">Hết hàng</option>' +
+        '<option value="0">-- Tất cả --</option><option value="1">Còn hàng</option><option value="2">Hết hàng</option>' +
         '</select></div>' +
         '<div class="form-group"><select data-placeholder="Chọn tình trạng hàng" class="form-control chzn-select" tabindex="5" name="selStatus">' +
-        '<option value="0">-- Tất cả sản phẩm --</option><option value="1">Hiển thị</option><option value="2">Không hiển thị</option>' +
+        '<option value="0">-- Tất cả --</option><option value="1">Hiển thị</option><option value="2">Không hiển thị</option>' +
         '</select></div>' +
         '<div class="form-group"><input type="text" name="txtSearch" placeholder="Nhập tên sản phẩm" class="form-control col-lg-3"></div>' +
         '<input type="button" class="btn btn-success" id="btnSearch" value="Tìm kiếm">' +

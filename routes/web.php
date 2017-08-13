@@ -19,6 +19,10 @@ Route::group(['prefix' => 'administrator', 'middleware' => 'language'], function
     
     Route::get('/dashboard', ['as' => 'pageIndexAdmin', 'uses' => 'Administrator\BaseAdminController@index']);
 
+    Route::group(['prefix' => 'settings'], function() {
+        Route::get('/display', ['as' => 'settingDisplay', 'uses' => 'Administrator\DisplayController@index']);
+    });
+
     Route::group(['prefix' => 'category'], function() {
         Route::get('/', ['as' => 'pageCateIndex', 'uses' => 'Administrator\CateController@index']);
         Route::post('/insert', ['as' => 'postInsertCate', 'uses' => 'Administrator\CateController@postInsert']);
@@ -45,7 +49,6 @@ Route::group(['prefix' => 'administrator', 'middleware' => 'language'], function
 
         Route::get('/delete/{id}', ['as' => 'getDeleteProduct', 'uses' => 'Administrator\ProductController@delete']);
     });
-
 
     Route::group(['prefix' => 'filemanager'], function () {
         Route::get('/', 'Administrator\FileManagerController@show');

@@ -39,6 +39,7 @@
                     reset: null
                 }
             },
+            btnpopup: null,
             setTable: function(me) {},
             beforePopupForm: function(obj) {}
         }
@@ -59,7 +60,7 @@
             });
 
 
-            me.find('button.btn-primary').click(function() {
+            $('button#'+settings.btnpopup).click(function() {
                 var row = $(this).parents('tr')[0];
                 var obj = table.row(row).data();
                 beforePopupForm(obj);

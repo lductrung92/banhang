@@ -90,27 +90,27 @@ $(document).ready(function(){
 // slide product
 jQuery(document).ready(function() {
 	jQuery('.owl_product_list').owlCarousel({
-		items: 4,
+		items: 5,
 		loop: false,
 		autoplay: false,
 		margin: 0,
 		responsiveClass: true,
 		nav : true,
 		navText: ['‹', '›'],
-		responsive: {
-			0: {
-				items: 1
-			},
-			320: {
-				items: 2
-			},
-			768: {
-				items: 3
-			},
-			992: {
-				items: 4
-			}
-		}
+		// responsive: {
+		// 	0: {
+		// 		items: 1
+		// 	},
+		// 	320: {
+		// 		items: 2
+		// 	},
+		// 	768: {
+		// 		items: 3
+		// 	},
+		// 	992: {
+		// 		items: 4
+		// 	}
+		// }
 	})
 	jQuery('.product_deal_slide').owlCarousel({
 		items: 5,
@@ -142,7 +142,7 @@ jQuery(document).ready(function() {
 		}
 	})
 	jQuery('.blogs_home_slide').owlCarousel({
-		items: 4,
+		items: 5,
 		loop: false,
 		autoplay: false,
 		margin: 10,
